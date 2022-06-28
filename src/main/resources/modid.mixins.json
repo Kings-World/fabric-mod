@@ -1,10 +1,14 @@
 {
   "required": true,
+  "minVersion": "0.8",
   "package": "me.seren.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [],
+  "mixins": [
+    "PlayerManagerMixin",
+    "ServerPlayNetworkHandlerMixin"
+  ],
   "client": [
-    "TitleScreen"
+    "ExampleMixin"
   ],
   "injectors": {
     "defaultRequire": 1

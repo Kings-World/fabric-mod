@@ -1,40 +1,38 @@
 {
   "schemaVersion": 1,
-  "id": "fabric-mod",
+  "id": "kings-world",
   "version": "${version}",
 
-  "name": "Fabric Mod",
+  "name": "Kings World",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Seren_Modz 21"
   ],
   "contact": {
-    "homepage": "https://kings-world.net",
-    "issues": "https://github.com/Kings-World/fabric-mod/issues",
-    "sources": "https://github.com/Kings-World/fabric-mod"
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/fabric-mod/icon.png",
+  "icon": "assets/modid/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      {
-        "adapter": "kotlin",
-        "value": "me.seren.Mod"
-      }
+      "me.seren.ExampleMod"
     ]
   },
   "mixins": [
-    "fabric-mod.mixins.json"
+    "modid.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
     "minecraft": "~1.19",
-    "java": ">=17",
-    "fabric-language-kotlin": ">=1.8.1+kotlin.1.7.0"
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
   }
 }

@@ -1,18 +1,33 @@
-.idea
-.gradle
+# gradle
 
-**/build/
-**/run/
+.gradle/
+build/
+out/
+classes/
 
-# Ignore Gradle GUI config
-gradle-app.setting
+# eclipse
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+*.launch
 
-# Cache of project
-.gradletasknamecache
+# idea
 
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
+.idea/
+*.iml
+*.ipr
+*.iws
 
+# vscode
+
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# macos
+
+*.DS_Store
+
+# fabric
+
+run/
