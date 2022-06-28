@@ -7,9 +7,7 @@
     "PlayerManagerMixin",
     "ServerPlayNetworkHandlerMixin"
   ],
-  "client": [
-    "ExampleMixin"
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }
