@@ -14,16 +14,16 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/kings-world/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.seren.ExampleMod"
+      "me.seren.KingsWorld"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "kings-world.mixins.json"
   ],
 
   "depends": {

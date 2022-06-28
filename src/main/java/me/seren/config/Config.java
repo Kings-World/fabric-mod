@@ -3,8 +3,8 @@ package me.seren.config;
 import club.minnced.discord.webhook.WebhookClientBuilder;
 import de.maxhenkel.configbuilder.ConfigBuilder;
 import de.maxhenkel.configbuilder.ConfigEntry;
+import net.minecraft.server.network.ServerPlayerEntity;
 
-import java.util.UUID;
 import java.util.regex.Matcher;
 
 public class Config {
@@ -13,7 +13,7 @@ public class Config {
 
     public Config(ConfigBuilder builder) {
         this.webhookUrl = builder.stringEntry("webhook_url", "");
-        this.avatarUrl = builder.stringEntry("avatar_url", "https://crafthead.net/helm");
+        this.avatarUrl = builder.stringEntry("avatar_url", "https://crafthead.net/helm/{uuid}");
     }
 
     public String getWebhookUrl() {
@@ -29,9 +29,9 @@ public class Config {
         return matcher.matches();
     }
 
-    public String getPlayerAvatar(UUID uuid) {
+    public String getPlayerAvatar(ServerPlayerEntity player) {
         String url = getAvatarUrl();
         if (url.isEmpty() || url.isBlank()) url = avatarUrl.getDefault();
-        return String.format("%s/%s", url, uuid.toString());
+        return url.replace("{uuid}", player.getUuid().toString()).replace("{name}", player.getName().toString());
     }
 }

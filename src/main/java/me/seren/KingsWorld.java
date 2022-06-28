@@ -9,11 +9,10 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExampleMod implements ModInitializer {
+public class KingsWorld implements ModInitializer {
 	public static final String MOD_ID = "kings-world";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static WebhookClient Webhook;
-
 	public static Config SERVER_CONFIG;
 
 	@Override
@@ -39,10 +38,6 @@ public class ExampleMod implements ModInitializer {
 			}
 		});
 
-
-
 		LOGGER.info("Kings World has been finished loading");
 	}
-
-
 }
