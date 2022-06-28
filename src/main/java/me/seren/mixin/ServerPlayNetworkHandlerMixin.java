@@ -19,16 +19,16 @@ public class ServerPlayNetworkHandlerMixin {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;onDisconnect()V"), method = "onDisconnected")
     private void onPlayerLeave(Text reason, CallbackInfo info) {
-        ExampleMod.LOGGER.info("A user left the server");
-        ExampleMod.LOGGER.info(this.player.getEntityName());
-        ExampleMod.LOGGER.info(String.valueOf(reason));
+        ExampleMod.LOGGER.info(String.format("%s (%s) left the server", this.player.getEntityName(), this.player.getUuidAsString()));
 
-        WebhookMessageBuilder builder = new WebhookMessageBuilder()
-                .setContent(String.format(":arrow_left: %s has left!", this.player.getEntityName()))
-                .setUsername(this.player.getEntityName())
-                .setAvatarUrl(String.format("https://crafthead.net/helm/%s", this.player.getUuidAsString()));
+        if (ExampleMod.Webhook != null) {
+            WebhookMessageBuilder builder = new WebhookMessageBuilder()
+                    .setContent(String.format(":arrow_left: %s has left!", this.player.getEntityName()))
+                    .setUsername(this.player.getEntityName())
+                    .setAvatarUrl(ExampleMod.SERVER_CONFIG.getPlayerAvatar(player.getUuid()));
 
-        ExampleMod.Webhook.send(builder.build());
+            ExampleMod.Webhook.send(builder.build());
+        }
     }
 
 //    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;onChatMessage()V"), method = "onChatMessage")
