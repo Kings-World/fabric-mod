@@ -1,7 +1,6 @@
 package me.seren.mixin;
 
-import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import me.seren.KingsWorld;
+import me.seren.Events;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -18,16 +17,7 @@ public class ServerPlayNetworkHandlerMixin {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;onDisconnect()V"), method = "onDisconnected")
     private void onPlayerLeave(Text reason, CallbackInfo info) {
-        KingsWorld.LOGGER.info(String.format("%s left the server", this.player.getEntityName()));
-
-        if (KingsWorld.Webhook != null) {
-            WebhookMessageBuilder builder = new WebhookMessageBuilder()
-                    .setContent(String.format(":arrow_left: %s has left!", this.player.getEntityName()))
-                    .setUsername(this.player.getEntityName())
-                    .setAvatarUrl(KingsWorld.SERVER_CONFIG.getPlayerAvatar(player));
-
-            KingsWorld.Webhook.send(builder.build());
-        }
+        Events.getInstance().playerLeave(this.player);
     }
 
 //    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;onChatMessage()V"), method = "onChatMessage")
