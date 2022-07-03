@@ -16,29 +16,29 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 
 public class KingsWorld implements ModInitializer {
-	public static final String MOD_ID = "kings-world";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static WebhookClient WEBHOOK;
-	public static Client CLIENT;
-	public static Config CONFIG;
+  public static final String MOD_ID = "kings-world";
+  public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+  public static WebhookClient WEBHOOK;
+  public static Client CLIENT;
+  public static Config CONFIG;
 
-	@Override
-	public void onInitialize() {
-		Path path = FabricLoader.getInstance().getConfigDir().resolve(Path.of(MOD_ID + ".properties"));
-		CONFIG = ConfigBuilder.build(path, true, Config::new);
+  @Override
+  public void onInitialize() {
+    Path path = FabricLoader.getInstance().getConfigDir().resolve(Path.of(MOD_ID + ".properties"));
+    CONFIG = ConfigBuilder.build(path, true, Config::new);
 
-		registerEvents();
-		registerCommands();
-	}
+    registerEvents();
+    registerCommands();
+  }
 
-	private static void registerEvents() {
-		ServerLifecycleEvents.SERVER_STARTING.register(Events::serverStarting);
-		ServerLifecycleEvents.SERVER_STARTED.register(Events::serverStarted);
-		ServerLifecycleEvents.SERVER_STOPPED.register(Events::serverStopped);
-		ServerMessageEvents.CHAT_MESSAGE.register(Events::chatMessage);
-	}
+  private static void registerEvents() {
+    ServerLifecycleEvents.SERVER_STARTING.register(Events::serverStarting);
+    ServerLifecycleEvents.SERVER_STARTED.register(Events::serverStarted);
+    ServerLifecycleEvents.SERVER_STOPPED.register(Events::serverStopped);
+    ServerMessageEvents.CHAT_MESSAGE.register(Events::chatMessage);
+  }
 
-	private static void registerCommands() {
-		CommandRegistrationCallback.EVENT.register((dispatcher, registry, env) -> DiscordCommand.register(dispatcher));
-	}
+  private static void registerCommands() {
+    CommandRegistrationCallback.EVENT.register((dispatcher, registry, env) -> DiscordCommand.register(dispatcher));
+  }
 }

@@ -13,7 +13,6 @@ public class Config {
     public final ConfigEntry<String> discordToken;
     public final ConfigEntry<String> channelId;
 
-
     public Config(ConfigBuilder builder) {
         this.webhookUrl = builder.stringEntry("webhook_url", "");
         this.avatarUrl = builder.stringEntry("avatar_url", "https://crafthead.net/helm/{uuid}");

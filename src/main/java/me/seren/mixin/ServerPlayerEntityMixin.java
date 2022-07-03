@@ -10,13 +10,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin {
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;getPrimeAdversary()Lnet/minecraft/entity/LivingEntity;"), method = "onDeath")
-    private void onPlayerKilled(DamageSource source, CallbackInfo info) {
-        Events.playerKilled(source);
-    }
+  @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;getPrimeAdversary()Lnet/minecraft/entity/LivingEntity;"), method = "onDeath")
+  private void onPlayerKilled(DamageSource source, CallbackInfo info) {
+    Events.playerKilled(source);
+  }
 
-    @Inject(at = @At(value = "TAIL"), method = "onDeath")
-    private void onPlayerDeath(DamageSource source, CallbackInfo info) {
-        Events.playerDeath(source);
-    }
+  @Inject(at = @At(value = "TAIL"), method = "onDeath")
+  private void onPlayerDeath(DamageSource source, CallbackInfo info) {
+    Events.playerDeath(source);
+  }
 }

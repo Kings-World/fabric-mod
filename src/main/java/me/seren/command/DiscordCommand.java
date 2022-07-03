@@ -10,17 +10,17 @@ import static net.minecraft.server.command.CommandManager.*;
 import static me.seren.KingsWorld.CLIENT;
 
 public class DiscordCommand {
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(literal("discord")
-                .requires(source -> source.hasPermissionLevel(2))
-                .then(argument("message", greedyString())
-                        .executes(DiscordCommand::run))
-        );
-    }
+  public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+    dispatcher.register(literal("discord")
+      .requires(source -> source.hasPermissionLevel(2))
+      .then(argument("message", greedyString())
+        .executes(DiscordCommand::run))
+    );
+  }
 
-    private static int run(CommandContext<ServerCommandSource> ctx) {
-        CLIENT.sendMessage(getString(ctx, "message"));
-        ctx.getSource().sendFeedback(Text.literal("The message has been sent"), true);
-        return 1;
-    }
+  private static int run(CommandContext<ServerCommandSource> ctx) {
+    CLIENT.sendMessage(getString(ctx, "message"));
+    ctx.getSource().sendFeedback(Text.literal("The message has been sent"), true);
+    return 1;
+  }
 }
