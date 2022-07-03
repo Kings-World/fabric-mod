@@ -3,21 +3,27 @@ package me.seren.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.server.command.CommandManager;
+import me.seren.Events;
+import me.seren.KingsWorld;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.*;
 
+import static com.mojang.brigadier.arguments.StringArgumentType.*;
+import static net.minecraft.server.command.CommandManager.*;
+
 public class DiscordCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager
-                .literal("discord")
+        dispatcher.register(literal("discord")
                 .requires(source -> source.hasPermissionLevel(2))
-                .executes(DiscordCommand::run)
+                .then(argument("message", greedyString())
+                        .executes(DiscordCommand::run))
         );
     }
 
-    private static int run(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException  {
-        ctx.getSource().sendFeedback(Text.literal("This command is not ready"), true);
+    private static int run(CommandContext<ServerCommandSource> ctx) {
+//        Events.getInstance().send(getString(ctx, "message"));
+        KingsWorld.DiscordClient.sendMessage(getString(ctx, "message"));
+        ctx.getSource().sendFeedback(Text.literal("The message has been sent"), true);
         return 1;
     }
 }

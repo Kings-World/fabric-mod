@@ -4,26 +4,27 @@ import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookMessage;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import net.minecraft.entity.LivingEntity;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Objects;
-import java.util.regex.Pattern;
 
 public final class Events {
     private static Events instance;
     public static final WebhookClient webhook = KingsWorld.Webhook;
 
     public void startServer() {
-        send(":white_check_mark: The server has started!");
+        KingsWorld.DiscordClient.sendMessage(":white_check_mark: The server has started!");
+//        send(":white_check_mark: The server has started!");
     }
 
     public void stopServer() {
-        send(":octagonal_sign: The server has stopped!");
+        KingsWorld.DiscordClient.sendMessage(":octagonal_sign: The server has stopped!");
+//        send(":octagonal_sign: The server has stopped!");
     }
 
     public void playerJoin(ServerPlayerEntity player) {
@@ -40,11 +41,6 @@ public final class Events {
 
     public void playerDeath(DamageSource source) {
         System.out.println(source);
-
-        if (Objects.requireNonNull(source.getSource()).isLiving()) {
-            String msg = source.getDeathMessage((LivingEntity) source.getSource()).getContent().toString();
-            System.out.println(msg);
-        }
     }
 
     public void playerMessage(ServerPlayerEntity player, String message) {
