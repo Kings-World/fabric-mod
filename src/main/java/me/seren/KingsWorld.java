@@ -56,8 +56,6 @@ public class KingsWorld implements ModInitializer {
 		);
 
 		registerCommands();
-
-		LOGGER.info("Kings World has been finished loading");
 	}
 
 	private static void registerCommands() {
