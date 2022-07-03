@@ -13,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerManagerMixin {
     @Inject(at = @At("TAIL"), method = "onPlayerConnect")
     private void onPlayerJoin(ClientConnection connection, ServerPlayerEntity player, CallbackInfo info) {
-        Events.getInstance().playerJoin(player);
+        Events.playerJoin(player);
     }
 }

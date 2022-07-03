@@ -17,11 +17,6 @@ public class ServerPlayNetworkHandlerMixin {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;onDisconnect()V"), method = "onDisconnected")
     private void onPlayerLeave(Text reason, CallbackInfo info) {
-        Events.getInstance().playerLeave(this.player);
+        Events.playerLeave(this.player);
     }
-
-//    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;onChatMessage()V"), method = "onChatMessage")
-//    private void onChatMessage(ChatMessageC2SPacket packet, CallbackInfo info) {
-//        System.out.printf("ServerPlayNetworkHandler.onDisconnected(%s)", packet.getChatMessage());
-//    }
 }
