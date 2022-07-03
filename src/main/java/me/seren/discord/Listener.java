@@ -1,6 +1,5 @@
 package me.seren.discord;
 
-import me.seren.KingsWorld;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -9,12 +8,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
 
-import static me.seren.KingsWorld.CONFIG;
+import static me.seren.KingsWorld.config;
+import static me.seren.KingsWorld.logger;
 
 public class Listener extends ListenerAdapter {
-  public Logger logger = KingsWorld.LOGGER;
   public Client client;
 
   public Listener(Client client) {
@@ -57,7 +55,7 @@ public class Listener extends ListenerAdapter {
     User author = event.getAuthor();
     String channelId = event.getMessage().getChannel().getId();
     if (event.isWebhookMessage() || author.isBot() || author.isSystem()) return;
-    if (content.isBlank() || !channelId.equals(CONFIG.getChannelId())) return;
+    if (content.isBlank() || !channelId.equals(config.getChannelId())) return;
 
     this.client.server.getPlayerManager().broadcast(Text.literal(
       String.format("<%s> %s", author.getAsTag(), content)

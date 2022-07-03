@@ -16,29 +16,32 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 
 public class KingsWorld implements ModInitializer {
-  public static final String MOD_ID = "kings-world";
-  public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-  public static WebhookClient WEBHOOK;
-  public static Client CLIENT;
-  public static Config CONFIG;
+  public static final String modId = "KingsWorld";
+  public static final Logger logger = LoggerFactory.getLogger(modId);
+  public static WebhookClient webhook;
+  public static Client client;
+  public static Config config;
 
   @Override
   public void onInitialize() {
-    Path path = FabricLoader.getInstance().getConfigDir().resolve(Path.of(MOD_ID + ".properties"));
-    CONFIG = ConfigBuilder.build(path, true, Config::new);
+    Path path = FabricLoader.getInstance().getConfigDir().resolve(Path.of(modId + ".properties"));
+    config = ConfigBuilder.build(path, true, Config::new);
 
     registerEvents();
     registerCommands();
   }
 
-  private static void registerEvents() {
+  private void registerEvents() {
+    // fabric-lifecycle-events-v1
     ServerLifecycleEvents.SERVER_STARTING.register(Events::serverStarting);
     ServerLifecycleEvents.SERVER_STARTED.register(Events::serverStarted);
     ServerLifecycleEvents.SERVER_STOPPED.register(Events::serverStopped);
+
+    // fabric-message-api-v1
     ServerMessageEvents.CHAT_MESSAGE.register(Events::chatMessage);
   }
 
-  private static void registerCommands() {
+  private void registerCommands() {
     CommandRegistrationCallback.EVENT.register((dispatcher, registry, env) -> DiscordCommand.register(dispatcher));
   }
 }
