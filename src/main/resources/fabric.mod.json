@@ -2,30 +2,20 @@
   "schemaVersion": 1,
   "id": "kings-world",
   "version": "${version}",
-
   "name": "Kings World",
-  "description": "This is an example description! Tell everyone what your mod is about!",
-  "authors": [
-    "Seren_Modz 21"
-  ],
+  "description": "A Discord to Minecraft bridge for Kings MC",
+  "authors": ["SerenModz21"],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://kings-world.net",
+    "sources": "https://github.com/Kings-World/fabric-mod"
   },
-
   "license": "CC0-1.0",
   "icon": "assets/kings-world/icon.png",
-
   "environment": "server",
   "entrypoints": {
-    "main": [
-      "me.seren.KingsWorld"
-    ]
+    "main": ["me.seren.KingsWorld"]
   },
-  "mixins": [
-    "kings-world.mixins.json"
-  ],
-
+  "mixins": ["kings-world.mixins.json"],
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
