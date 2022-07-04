@@ -32,9 +32,9 @@ A fabric mod that links Minecraft and Discord together. This mod was specificall
 
 ## Credits
 
-- [SerenModz21](https://github.com/SerenModz21), for making the mod
-- [Iris Shaders](https://modrinth.com/mod/iris), for the useful links and credits layout
-- [simple-voice-chat](https://modrinth.com/mod/simple-voice-chat), for the discord banner and link section at the top of the page
+- [SerenModz21](https://github.com/SerenModz21), for making the mod.
+- [Iris Shaders](https://modrinth.com/mod/iris), for the useful links and credits layout.
+- [simple-voice-chat](https://modrinth.com/mod/simple-voice-chat), for the discord banner and link section at the top of the page.
 
 [website]: https://kings-world.net
 [discord]: https://discord.gg/fRbKEx9zaZ
