@@ -18,7 +18,6 @@
   "mixins": ["kings-world.mixins.json"],
   "depends": {
     "fabricloader": ">=0.14.8",
-    "fabric-permissions-api-v0": "*",
     "fabric": "*",
     "minecraft": "~1.19",
     "java": ">=17"

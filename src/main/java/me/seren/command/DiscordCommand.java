@@ -2,7 +2,6 @@ package me.seren.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import me.seren.Utils;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -15,7 +14,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class DiscordCommand {
   public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
     dispatcher.register(literal("discord")
-      .requires(Permissions.require("kings-world.discord", 4))
+      .requires(Utils.requirePermission("kings-world.discord", 4))
       .then(argument("message", greedyString())
         .executes(DiscordCommand::run))
     );

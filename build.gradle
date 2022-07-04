@@ -44,6 +44,12 @@ dependencies {
 
   // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
+  implementation "de.maxhenkel.configbuilder:configbuilder:${project.configbuilder_version}"
+  implementation "club.minnced:discord-webhooks:${project.webhooks_version}"
+  implementation("net.dv8tion:JDA:${project.jda_version}") {
+    exclude module: "opus-java"
+  }
+
   shadow "de.maxhenkel.configbuilder:configbuilder:${project.configbuilder_version}"
   shadow "club.minnced:discord-webhooks:${project.webhooks_version}"
   shadow("net.dv8tion:JDA:${project.jda_version}") {
