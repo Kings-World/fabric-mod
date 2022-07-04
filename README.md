@@ -8,13 +8,13 @@
 
 A fabric mod that links Minecraft and Discord together. This mod was specifically made for the Kings World SMP server, however, the mod has been made public so anyone else with a fabric server can also enjoy the experience.
 
-<p align="center">
+<div style="text-align: center;">
   <a href="https://discord.gg/fRbKEx9zaZ">
     <img src="https://i.imgur.com/JgDt1Fl.png" width="300" alt="Discord">
   </a>
   <br/>
   <i>Please join the Discord if you have questions!</i>
-</p>
+</div>
 
 ## Useful Links
 
