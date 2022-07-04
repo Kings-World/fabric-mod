@@ -3,7 +3,6 @@
 <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
   <img src="https://i.imgur.com/MT68e17.png" height="40" alt="Requires Fabric API">
 </a>
-<iframe src="https://github.com/sponsors/SerenModz21/button" title="Sponsor SerenModz21" height="35" width="116" style="border: 0;"></iframe>
 
 [CurseForge][curseforge] | [Modrinth][modrinth] | [Discord][discord] | [Website][website] | [Donate][donate]
 
