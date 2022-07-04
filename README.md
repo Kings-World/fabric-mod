@@ -1,7 +1,7 @@
 # Kings World
 
 <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
-  <img src="https://i.imgur.com/MT68e17.png" height="40" alt="Requires Fabric API">
+  <img src="https://i.imgur.com/MT68e17.png" height="50" width="150" alt="Requires Fabric API">
 </a>
 
 [CurseForge][curseforge] | [Modrinth][modrinth] | [Discord][discord] | [Website][website] | [Donate][donate]
