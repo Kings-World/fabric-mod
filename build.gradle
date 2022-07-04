@@ -1,14 +1,8 @@
-buildscript {
-  dependencies {
-    classpath "org.kohsuke:github-api:1.307"
-  }
-}
-
 plugins {
   id "java"
   id "fabric-loom" version "0.12-SNAPSHOT"
   id "com.github.johnrengelman.shadow" version "7.1.2"
-  id "org.ajoberstar.grgit" version "3.1.0"
+  id "com.github.breadmoirai.github-release" version "2.3.7"
   id "com.modrinth.minotaur" version "2.+"
 }
 
@@ -87,39 +81,58 @@ jar {
   }
 }
 
-def getBranch() {
-  if (grgit == null)
-    return "unknown"
+//def getBranch() {
+//  if (grgit == null)
+//    return "unknown"
+//
+//  def branch
+//  if (System.getenv("GITHUB_REF")) {
+//    branch = System.getenv("GITHUB_REF")
+//  } else {
+//    branch = grgit.branch.current().name
+//  }
+//
+//  return branch.substring(branch.lastIndexOf("/") + 1)
+//}
 
-  def branch
-  if (System.getenv("GITHUB_REF")) {
-    branch = System.getenv("GITHUB_REF")
-  } else {
-    branch = grgit.branch.current().name
-  }
+//import org.kohsuke.github.GHReleaseBuilder
+//import org.kohsuke.github.GitHub
 
-  return branch.substring(branch.lastIndexOf("/") + 1)
+//task github(group: "publishing", dependsOn: build) {
+//  onlyIf { System.getenv("GITHUB_TOKEN") }
+//
+//  doLast {
+//    def github = GitHub.connectUsingOAuth(System.getenv("GITHUB_TOKEN"))
+//    def repo = github.getRepository(System.getenv("GITHUB_REPO"))
+//
+//    def builder = new GHReleaseBuilder(repo, version)
+//    builder.name("[$minecraft_version] $mod_name $mod_version")
+//    builder.body(file(".github/changelog.md").text)
+//    builder.commitish(getBranch())
+//    builder.prerelease(prerelease == "true")
+//
+//    def release = builder.create()
+//    release.uploadAsset(remapJar.archiveFile.get().getAsFile(), "application/java-archive")
+//  }
+//}
+
+githubRelease {
+  token = System.getenv("GITHUB_TOKEN").toString()
+  owner = System.getenv("GITHUB_OWNER").toString() // "Kings-World"
+  repo = System.getenv("GITHUB_REPO").toString() // "fabric-mod"
+  targetCommitish = System.getenv("GITHUB_REF_NAME").toString() // "main"
+  body = file(".github/changelog.md").text
+  prerelease = prerelease == "true"
+  releaseAssets = remapJar.archiveFile.get()
+  tagName = version
+  releaseName = version
+  dryRun = debug == "true"
 }
 
-import org.kohsuke.github.GHReleaseBuilder
-import org.kohsuke.github.GitHub
-
-task github(group: "publishing", dependsOn: build) {
+tasks.githubRelease.configure {
+  group = "publishing"
   onlyIf { System.getenv("GITHUB_TOKEN") }
-
-  doLast {
-    def github = GitHub.connectUsingOAuth(System.getenv("GITHUB_TOKEN"))
-    def repo = github.getRepository(System.getenv("GITHUB_REPO"))
-
-    def builder = new GHReleaseBuilder(repo, version)
-    builder.name("[$minecraft_version] $mod_name $mod_version")
-    builder.body(file(".github/changelog.md").text)
-    builder.commitish(getBranch())
-    builder.prerelease(prerelease == "true")
-
-    def release = builder.create()
-    release.uploadAsset(remapJar.archiveFile.get().getAsFile(), "application/java-archive")
-  }
+  dependsOn(build)
 }
 
 modrinth {

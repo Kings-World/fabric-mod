@@ -21,7 +21,10 @@ jobs:
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
       - name: build and publish
-        run: ./gradlew build github modrinth --stacktrace
+        run: ./gradlew build githubRelease modrinth --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
