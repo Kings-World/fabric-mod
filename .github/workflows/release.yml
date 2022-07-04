@@ -2,7 +2,7 @@ name: release
 on: [workflow_dispatch]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -23,8 +23,8 @@ jobs:
       - name: build and publish
         run: ./gradlew build githubRelease modrinth --stacktrace
         env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_OWNER: ${{ github.repository_owner }}
           GITHUB_REPO: ${{ github.event.repository.name }}
           GITHUB_REF_NAME: ${{ github.ref_name }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
