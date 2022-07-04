@@ -1,9 +1,44 @@
-# Fabric Example Mod
+# Kings World
 
-## Setup
+<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
+  <img src="https://i.imgur.com/MT68e17.png" height="40" alt="Requires Fabric API">
+</a>
+<iframe src="https://github.com/sponsors/SerenModz21/button" title="Sponsor SerenModz21" height="35" width="116" style="border: 0;"></iframe>
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+[CurseForge][curseforge] | [Modrinth][modrinth] | [Discord][discord] | [Website][website] | [Donate][donate]
 
-## License
+A fabric mod that links Minecraft and Discord together. This mod was specifically made for the Kings World SMP server, however, the mod has been made public so anyone else with a fabric server can also enjoy the experience.
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+<p align="center">
+  <a href="https://discord.gg/fRbKEx9zaZ">
+    <img src="https://i.imgur.com/JgDt1Fl.png" width="300" alt="Discord">
+  </a>
+  <br/>
+  <i>Please join the Discord if you have questions!</i>
+</p>
+
+## Useful Links
+
+- Visit [our website][website] for more information about Kings World!
+- Visit [our Discord server][discord] to chat with our community about the mod and get support! It's also a great place to chat about games or to join our SMP server.
+- Visit [our donation page][donate] to support the development of this mod!
+
+## Installation
+
+2. Go to the releases section and download the JAR that best suites your server.
+3. Move the downloaded JAR into your server's mods folder.
+4. Start your server to create the mods config file.
+5. Go to your server's config folder and fill in the required information.
+6. Restart your server and your good to go.
+
+## Credits
+
+- [SerenModz21](https://github.com/SerenModz21), for making the mod
+- [Iris Shaders](https://modrinth.com/mod/iris), for the useful links and credits layout
+- [simple-voice-chat](https://modrinth.com/mod/simple-voice-chat), for the discord banner and link section at the top of the page
+
+[website]: https://kings-world.net
+[discord]: https://discord.gg/fRbKEx9zaZ
+[donate]: https://github.com/sponsors/SerenModz21
+[modrinth]: https://modrinth.com/mod/kings-world
+[curseforge]: #

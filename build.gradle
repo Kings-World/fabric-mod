@@ -1,18 +1,23 @@
+buildscript {
+  dependencies {
+    classpath "org.kohsuke:github-api:1.307"
+  }
+}
+
 plugins {
-  id "com.github.johnrengelman.shadow" version "7.1.2"
-  id "fabric-loom" version "0.12-SNAPSHOT"
-  id "maven-publish"
   id "java"
+  id "fabric-loom" version "0.12-SNAPSHOT"
+  id "com.github.johnrengelman.shadow" version "7.1.2"
+  id "org.ajoberstar.grgit" version "3.1.0"
+  id "com.modrinth.minotaur" version "2.+"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
-
-//configurations { shadow; implementation.extendsFrom shadow }
+archivesBaseName = archives_base_name
+version = mod_version
+group = maven_group
 
 repositories {
   // Add repositories to retrieve artifacts from in here.
@@ -30,29 +35,28 @@ repositories {
 }
 
 dependencies {
-  // To change the versions see the gradle.properties file
-  minecraft "com.mojang:minecraft:${project.minecraft_version}"
-  mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-  modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+  minecraft "com.mojang:minecraft:$minecraft_version"
+  mappings "net.fabricmc:yarn:$yarn_mappings:v2"
+  modImplementation "net.fabricmc:fabric-loader:$loader_version"
 
   // Fabric API. This is technically optional, but you probably want it anyway.
-  modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-  modImplementation "me.lucko:fabric-permissions-api:${project.perms_version}"
+  modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
+  modImplementation "me.lucko:fabric-permissions-api:$perms_version"
 
   // Uncomment the following line to enable the deprecated Fabric API modules.
   // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
   // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
-  implementation "de.maxhenkel.configbuilder:configbuilder:${project.configbuilder_version}"
-  implementation "club.minnced:discord-webhooks:${project.webhooks_version}"
-  implementation("net.dv8tion:JDA:${project.jda_version}") {
+  implementation "de.maxhenkel.configbuilder:configbuilder:$configbuilder_version"
+  implementation "club.minnced:discord-webhooks:$webhooks_version"
+  implementation("net.dv8tion:JDA:$jda_version") {
     exclude module: "opus-java"
   }
 
-  shadow "de.maxhenkel.configbuilder:configbuilder:${project.configbuilder_version}"
-  shadow "club.minnced:discord-webhooks:${project.webhooks_version}"
-  shadow("net.dv8tion:JDA:${project.jda_version}") {
+  shadow "de.maxhenkel.configbuilder:configbuilder:$configbuilder_version"
+  shadow "club.minnced:discord-webhooks:$webhooks_version"
+  shadow("net.dv8tion:JDA:$jda_version") {
     exclude module: "opus-java"
   }
 }
@@ -83,28 +87,78 @@ jar {
   }
 }
 
-// configure the maven publication
-publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      from components.java
-    }
+def getBranch() {
+  if (grgit == null)
+    return "unknown"
+
+  def branch
+  if (System.getenv("GITHUB_REF")) {
+    branch = System.getenv("GITHUB_REF")
+  } else {
+    branch = grgit.branch.current().name
   }
 
-  // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-  repositories {
-    // Add repositories to publish to here.
-    // Notice: This block does NOT have the same function as the block in the top level.
-    // The repositories here will be used for publishing your artifact, not for
-    // retrieving dependencies.
+  return branch.substring(branch.lastIndexOf("/") + 1)
+}
+
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
+
+task github(group: "publishing", dependsOn: build) {
+  onlyIf { System.getenv("GITHUB_TOKEN") }
+
+  doLast {
+    def github = GitHub.connectUsingOAuth(System.getenv("GITHUB_TOKEN"))
+    def repo = github.getRepository(System.getenv("GITHUB_REPO"))
+
+    def builder = new GHReleaseBuilder(repo, version)
+    builder.name("[$minecraft_version] $mod_name $mod_version")
+    builder.body(file(".github/changelog.md").text)
+    builder.commitish(getBranch())
+    builder.prerelease(prerelease == "true")
+
+    def release = builder.create()
+    release.uploadAsset(remapJar.archiveFile.get().getAsFile(), "application/java-archive")
   }
 }
 
+modrinth {
+  projectId = modrinth_id
+  versionNumber = version
+  versionType = prerelease == "true" ? "beta" : "release"
+  versionName = "[$minecraft_version] $mod_name $mod_version"
+  uploadFile = remapJar
+  gameVersions = [minecraft_version]
+  loaders = ["fabric"]
+  changelog = file(".github/changelog.md").text
+  syncBodyFrom = file("README.md").text
+  debugMode = debug == "true"
+  dependencies {
+    required.project "P7dR8mSH" // Fabric-API
+    // required.version "Zp275COe" // Fabric-API 0.57.0+1.19
+    optional.project "Vebnzrzj" // LuckPerms
+  }
+}
+
+tasks.modrinth.configure {
+  group = "publishing"
+  onlyIf { System.getenv("MODRINTH_TOKEN") }
+  dependsOn(build, modrinthSyncBody)
+}
+
+task publishToModSites {
+  group = "publishing"
+  dependsOn(modrinth)
+}
+
+// credits to https://github.com/axieum/minecord/blob/main/minecord-api/build.gradle
+// i have added minimize() to keep the jar as small as it can be
 shadowJar {
   minimize()
   configurations = [project.configurations.shadow]
 }
 
+// credits to https://github.com/axieum/minecord/blob/main/minecord-api/build.gradle
 remapJar {
   dependsOn tasks.shadowJar
   inputFile.set(tasks.shadowJar.archiveFile)

@@ -21,5 +21,8 @@
     "fabric": "*",
     "minecraft": "~1.19",
     "java": ">=17"
+  },
+  "suggests": {
+    "fabric-permissions-api-v0": "*"
   }
 }
