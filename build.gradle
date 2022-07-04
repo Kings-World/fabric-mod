@@ -1,6 +1,8 @@
 plugins {
+  id "com.github.johnrengelman.shadow" version "7.1.2"
   id "fabric-loom" version "0.12-SNAPSHOT"
   id "maven-publish"
+  id "java"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -9,6 +11,8 @@ targetCompatibility = JavaVersion.VERSION_17
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
+
+//configurations { shadow; implementation.extendsFrom shadow }
 
 repositories {
   // Add repositories to retrieve artifacts from in here.
@@ -36,9 +40,9 @@ dependencies {
 
   // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
-  implementation "de.maxhenkel.configbuilder:configbuilder:${project.configbuilder_version}"
-  implementation "club.minnced:discord-webhooks:${project.webhooks_version}"
-  implementation("net.dv8tion:JDA:${project.jda_version}") {
+  shadow "de.maxhenkel.configbuilder:configbuilder:${project.configbuilder_version}"
+  shadow "club.minnced:discord-webhooks:${project.webhooks_version}"
+  shadow("net.dv8tion:JDA:${project.jda_version}") {
     exclude module: "opus-java"
   }
 }
@@ -84,4 +88,14 @@ publishing {
     // The repositories here will be used for publishing your artifact, not for
     // retrieving dependencies.
   }
+}
+
+shadowJar {
+  minimize()
+  configurations = [project.configurations.shadow]
+}
+
+remapJar {
+  dependsOn tasks.shadowJar
+  inputFile.set(tasks.shadowJar.archiveFile)
 }

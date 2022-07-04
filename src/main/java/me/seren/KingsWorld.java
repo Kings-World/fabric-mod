@@ -24,7 +24,7 @@ public class KingsWorld implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    Path path = FabricLoader.getInstance().getConfigDir().resolve(Path.of(modId + ".properties"));
+    Path path = FabricLoader.getInstance().getConfigDir().resolve(Path.of(modId.toLowerCase() + ".properties"));
     config = ConfigBuilder.build(path, true, Config::new);
 
     registerEvents();

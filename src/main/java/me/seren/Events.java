@@ -8,6 +8,7 @@ import net.minecraft.network.message.SignedMessage;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.filter.FilteredMessage;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.registry.RegistryKey;
 
 import javax.security.auth.login.LoginException;
@@ -16,11 +17,16 @@ import static me.seren.KingsWorld.*;
 
 public final class Events {
   public static void serverStarting(MinecraftServer server) {
-    try {
+    if (config.isValidWebhookUrl()) {
       webhook = WebhookClient.withUrl(config.getWebhookUrl());
+    } else {
+      logger.error("Config[Webhook]: Failed to parse webhook URL");
+    }
+
+    try {
       client = new Client(server);
     } catch (LoginException | InterruptedException e) {
-      throw new RuntimeException(e);
+      logger.error("Config[Discord]: " + e.getLocalizedMessage());
     }
   }
 
