@@ -8,14 +8,6 @@
 
 A fabric mod that links Minecraft and Discord together. This mod was specifically made for the Kings World SMP server, however, the mod has been made public so anyone else with a fabric server can also enjoy the experience.
 
-<div style="text-align: center;">
-  <a href="https://discord.gg/fRbKEx9zaZ">
-    <img src="https://i.imgur.com/JgDt1Fl.png" width="300" alt="Discord">
-  </a>
-  <br/>
-  <i>Please join the Discord if you have questions!</i>
-</div>
-
 ## Useful Links
 
 - Visit [our website][website] for more information about Kings World!
@@ -34,7 +26,7 @@ A fabric mod that links Minecraft and Discord together. This mod was specificall
 
 - [SerenModz21](https://github.com/SerenModz21), for making the mod.
 - [Iris Shaders](https://modrinth.com/mod/iris), for the useful links and credits layout.
-- [simple-voice-chat](https://modrinth.com/mod/simple-voice-chat), for the discord banner and link section at the top of the page.
+- [simple-voice-chat](https://modrinth.com/mod/simple-voice-chat), for the list of links section below the header.
 
 [website]: https://kings-world.net
 [discord]: https://discord.gg/fRbKEx9zaZ
