@@ -1,5 +1,6 @@
 plugins {
   id "java"
+  id "maven-publish"
   id "fabric-loom" version "0.12-SNAPSHOT"
   id "com.github.johnrengelman.shadow" version "7.1.2"
   id "com.github.breadmoirai.github-release" version "2.3.7"
@@ -14,11 +15,6 @@ version = mod_version
 group = maven_group
 
 repositories {
-  // Add repositories to retrieve artifacts from in here.
-  // You should only use this when depending on other mods because
-  // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-  // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-  // for more information about repositories.
   maven {
     url "https://oss.sonatype.org/content/repositories/snapshots"
   }
@@ -36,11 +32,6 @@ dependencies {
   // Fabric API. This is technically optional, but you probably want it anyway.
   modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
   modImplementation "me.lucko:fabric-permissions-api:$perms_version"
-
-  // Uncomment the following line to enable the deprecated Fabric API modules.
-  // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
-
-  // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
   implementation "de.maxhenkel.configbuilder:configbuilder:$configbuilder_version"
   implementation "club.minnced:discord-webhooks:$webhooks_version"
@@ -81,46 +72,11 @@ jar {
   }
 }
 
-//def getBranch() {
-//  if (grgit == null)
-//    return "unknown"
-//
-//  def branch
-//  if (System.getenv("GITHUB_REF")) {
-//    branch = System.getenv("GITHUB_REF")
-//  } else {
-//    branch = grgit.branch.current().name
-//  }
-//
-//  return branch.substring(branch.lastIndexOf("/") + 1)
-//}
-
-//import org.kohsuke.github.GHReleaseBuilder
-//import org.kohsuke.github.GitHub
-
-//task github(group: "publishing", dependsOn: build) {
-//  onlyIf { System.getenv("GITHUB_TOKEN") }
-//
-//  doLast {
-//    def github = GitHub.connectUsingOAuth(System.getenv("GITHUB_TOKEN"))
-//    def repo = github.getRepository(System.getenv("GITHUB_REPO"))
-//
-//    def builder = new GHReleaseBuilder(repo, version)
-//    builder.name("[$minecraft_version] $mod_name $mod_version")
-//    builder.body(file(".github/changelog.md").text)
-//    builder.commitish(getBranch())
-//    builder.prerelease(prerelease == "true")
-//
-//    def release = builder.create()
-//    release.uploadAsset(remapJar.archiveFile.get().getAsFile(), "application/java-archive")
-//  }
-//}
-
 githubRelease {
   token = System.getenv("GITHUB_TOKEN").toString()
-  owner = System.getenv("GITHUB_OWNER").toString() // "Kings-World"
-  repo = System.getenv("GITHUB_REPO").toString() // "fabric-mod"
-  targetCommitish = System.getenv("GITHUB_REF_NAME").toString() // "main"
+  owner = System.getenv("GITHUB_OWNER").toString()
+  repo = System.getenv("GITHUB_REPO").toString()
+  targetCommitish = System.getenv("GITHUB_REF_NAME").toString()
   body = file(".github/changelog.md").text
   releaseAssets = remapJar.archiveFile.get()
   releaseName = "[$minecraft_version] $mod_name $mod_version"
@@ -144,8 +100,8 @@ modrinth {
   changelog = file(".github/changelog.md").text
   syncBodyFrom = file("README.md").text
   dependencies {
-    required.project "P7dR8mSH" // Fabric-API
-    // required.version "Zp275COe" // Fabric-API 0.57.0+1.19
+    required.project "P7dR8mSH" // Fabric API
+    // required.version "Zp275COe" // Fabric API 0.57.0+1.19
     optional.project "Vebnzrzj" // LuckPerms
   }
 }
@@ -159,6 +115,25 @@ tasks.modrinth.configure {
 task publishToModSites {
   group = "publishing"
   dependsOn(modrinth)
+}
+
+// https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry
+publishing {
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/${System.getenv("GITHUB_OWNER")}/${System.getenv("GITHUB_REPO")}")
+      credentials {
+        username = System.getenv("GITHUB_OWNER")
+        password = System.getenv("GITHUB_TOKEN")
+      }
+    }
+  }
+  publications {
+    gpr(MavenPublication) {
+      from components.java
+    }
+  }
 }
 
 // credits to https://github.com/axieum/minecord/blob/main/minecord-api/build.gradle
