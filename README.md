@@ -4,7 +4,7 @@
 
 A fabric mod that links Minecraft and Discord together. This mod was specifically made for the Kings World SMP server, however, the mod has been made public so anyone else with a fabric server can also enjoy the experience.
 
-<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
+<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api" target="_blank">
   <img src="https://i.imgur.com/MT68e17.png" height="50" width="150" alt="Requires Fabric API">
 </a>
 
@@ -16,11 +16,11 @@ A fabric mod that links Minecraft and Discord together. This mod was specificall
 
 ## Installation
 
-2. Go to the releases section and download the JAR that best suites your server.
-3. Move the downloaded JAR into your server's mods folder.
-4. Start your server to create the mods config file.
-5. Go to your server's config folder and fill in the required information.
-6. Restart your server and your good to go.
+1. Go to the releases section and download the JAR that best suites your server.
+2. Move the downloaded JAR into your server's mods folder.
+3. Start your server to create the mods config file.
+4. Go to your server's config folder and fill in the required information.
+5. Restart your server and your good to go.
 
 ## Credits
 
