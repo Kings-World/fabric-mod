@@ -1,12 +1,12 @@
 # Kings World
 
-<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
-  <img src="https://i.imgur.com/MT68e17.png" height="50" width="150" alt="Requires Fabric API">
-</a>
-
 [CurseForge][curseforge] | [Modrinth][modrinth] | [Discord][discord] | [Website][website] | [Donate][donate]
 
 A fabric mod that links Minecraft and Discord together. This mod was specifically made for the Kings World SMP server, however, the mod has been made public so anyone else with a fabric server can also enjoy the experience.
+
+<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
+  <img src="https://i.imgur.com/MT68e17.png" height="50" width="150" alt="Requires Fabric API">
+</a>
 
 ## Useful Links
 
