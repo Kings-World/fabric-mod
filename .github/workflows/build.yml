@@ -1,5 +1,21 @@
 name: build
-on: [pull_request, push]
+on:
+  pull_request:
+    branches-ignore:
+      - renovate/**
+    paths-ignore:
+      - .github/**
+      - .gitignore
+      - LICENSE
+      - README.md
+  push:
+    branches-ignore:
+      - renovate/**
+    paths-ignore:
+      - .github/**
+      - .gitignore
+      - LICENSE
+      - README.md
 
 jobs:
   build:
