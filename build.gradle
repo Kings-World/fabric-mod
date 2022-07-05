@@ -122,11 +122,9 @@ githubRelease {
   repo = System.getenv("GITHUB_REPO").toString() // "fabric-mod"
   targetCommitish = System.getenv("GITHUB_REF_NAME").toString() // "main"
   body = file(".github/changelog.md").text
-  prerelease = prerelease == "true"
   releaseAssets = remapJar.archiveFile.get()
-  tagName = version
-  releaseName = version
-  dryRun = debug == "true"
+  releaseName = "[$minecraft_version] $mod_name $mod_version"
+  tagName = mod_version
 }
 
 tasks.githubRelease.configure {
@@ -138,14 +136,13 @@ tasks.githubRelease.configure {
 modrinth {
   projectId = modrinth_id
   versionNumber = version
-  versionType = prerelease == "true" ? "beta" : "release"
+  versionType = release_type
   versionName = "[$minecraft_version] $mod_name $mod_version"
   uploadFile = remapJar
   gameVersions = [minecraft_version]
   loaders = ["fabric"]
   changelog = file(".github/changelog.md").text
   syncBodyFrom = file("README.md").text
-  debugMode = debug == "true"
   dependencies {
     required.project "P7dR8mSH" // Fabric-API
     // required.version "Zp275COe" // Fabric-API 0.57.0+1.19
