@@ -67,6 +67,7 @@ public final class Events {
   }
 
   public static void playerDeath(Entity entity, Text text) {
+    if (!entity.isPlayer()) return;
     Utils.sendEntityWebhook(entity, ":skull: " + text.getString());
   }
 
