@@ -1,3 +1,9 @@
+# 1.0.0-beta1.4
+
+- Disable webhook mentions
+- Allow changing the bots status
+- Allow changing the bots activity
+
 # 1.0.0-beta1.3
 
 - Make deleting slash commands on server stop optional

@@ -1,7 +1,10 @@
 package me.seren.discord;
 
+import me.seren.config.Config.ActivityTypes;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.minecraft.server.MinecraftServer;
@@ -15,13 +18,25 @@ public class Client {
   public MinecraftServer server;
 
   public Client(MinecraftServer server) throws LoginException, InterruptedException {
+
+
     this.server = server;
     this.jda = JDABuilder
       .createDefault(config.getDiscordToken())
       .addEventListeners(new Listener(this))
-      .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
+      .enableIntents(GatewayIntent.GUILD_MESSAGES)
+      .setActivity(getActivity())
+      .setStatus(config.getClientStatus())
       .build()
       .awaitReady();
+  }
+
+  private Activity getActivity() {
+    if (config.getActivityType().equals(ActivityTypes.NONE)) return null;
+    return Activity.of(
+      ActivityType.valueOf(config.getActivityType().name()),
+      config.getActivityName()
+    );
   }
 
   public void addAndUpdateCommands(JDA jda) {
