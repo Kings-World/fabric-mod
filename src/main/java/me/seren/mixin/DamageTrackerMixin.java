@@ -1,7 +1,6 @@
 package me.seren.mixin;
 
 import me.seren.Events;
-import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageTracker;
 import net.minecraft.text.Text;
@@ -13,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(DamageTracker.class)
-public abstract class DamageTrackerMixin {
+public class DamageTrackerMixin {
   @Shadow @Final private LivingEntity entity;
 
   @Inject(at = @At(value = "RETURN"), method = "getDeathMessage")
