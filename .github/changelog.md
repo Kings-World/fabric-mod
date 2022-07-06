@@ -1,3 +1,8 @@
+# 1.0.0-beta1.3
+
+- Make deleting slash commands on server stop optional
+- Shorten the notifying discord message
+
 # 1.0.0-beta1.2
 
 - Fixed issue of server getting stuck on "Thread Query Listener stopped"

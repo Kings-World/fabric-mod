@@ -38,8 +38,10 @@ public final class Events {
     logger.info("Notifying discord");
     Utils.sendDiscordMessage(":octagonal_sign: The server has stopped!");
 
-    logger.info("Deleting all slash commands");
-    client.jda.updateCommands().queue();
+    if (!config.getPersistCommands()) {
+      logger.info("Deleting all slash commands");
+      client.jda.updateCommands().queue();
+    }
 
     logger.info("Closing the webhook connection");
     webhook.close();

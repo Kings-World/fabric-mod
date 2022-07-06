@@ -11,12 +11,14 @@ public class Config {
     public final ConfigEntry<String> avatarUrl;
     public final ConfigEntry<String> discordToken;
     public final ConfigEntry<String> channelId;
+    public final ConfigEntry<Boolean> persistCommands;
 
     public Config(ConfigBuilder builder) {
         this.webhookUrl = builder.stringEntry("webhook_url", "");
         this.avatarUrl = builder.stringEntry("avatar_url", "https://crafthead.net/helm/{uuid}");
         this.discordToken = builder.stringEntry("discord_token", "");
         this.channelId = builder.stringEntry("channel_id", "");
+        this.persistCommands = builder.booleanEntry("persist_commands", true);
     }
 
     public String getWebhookUrl() {
@@ -33,6 +35,10 @@ public class Config {
 
     public String getChannelId() {
         return channelId.get();
+    }
+
+    public Boolean getPersistCommands() {
+        return persistCommands.get();
     }
 
     public boolean isValidWebhookUrl() {
