@@ -1,5 +1,6 @@
 package me.seren;
 
+import club.minnced.discord.webhook.send.AllowedMentions;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -40,6 +41,7 @@ public class Utils {
       .setContent(getEntityValues(content, entity))
       .setUsername(entity.getEntityName())
       .setAvatarUrl(getEntityAvatar(entity))
+      .setAllowedMentions(AllowedMentions.none())
       .build());
   }
 
