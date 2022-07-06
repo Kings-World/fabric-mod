@@ -37,7 +37,7 @@ public class Config {
         return channelId.get();
     }
 
-    public Boolean getPersistCommands() {
+    public Boolean shouldPersistCommands() {
         return persistCommands.get();
     }
 

@@ -35,19 +35,23 @@ public final class Events {
   }
 
   public static void serverStopping(MinecraftServer server) {
-    logger.info("Notifying discord");
-    Utils.sendDiscordMessage(":octagonal_sign: The server has stopped!");
+    if (client != null) {
+      logger.info("Notifying discord");
+      Utils.sendDiscordMessage(":octagonal_sign: The server has stopped!");
 
-    if (!config.getPersistCommands()) {
-      logger.info("Deleting all slash commands");
-      client.jda.updateCommands().queue();
+      if (!config.shouldPersistCommands()) {
+        logger.info("Deleting all slash commands");
+        client.jda.updateCommands().queue();
+      }
+
+      logger.info("Closing the JDA connection");
+      client.jda.shutdown();
     }
 
-    logger.info("Closing the webhook connection");
-    webhook.close();
-
-    logger.info("Closing the JDA connection");
-    client.jda.shutdown();
+    if (webhook != null) {
+      logger.info("Closing the webhook connection");
+      webhook.close();
+    }
   }
 
   public static void chatMessage(FilteredMessage<SignedMessage> message, ServerPlayerEntity sender, RegistryKey<MessageType> typeKey) {
