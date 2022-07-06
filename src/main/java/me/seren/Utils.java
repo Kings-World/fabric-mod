@@ -4,8 +4,8 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.function.Predicate;
 
@@ -27,7 +27,7 @@ public class Utils {
     else channel.sendMessage(text).queue();
   }
 
-  public static void sendPlayerWebhook(ServerPlayerEntity player, String content) {
+  public static void sendEntityWebhook(Entity entity, String content) {
     if (webhook == null) {
       logger.error("""
         Couldn't send webhook message because the webhook client is null
@@ -37,10 +37,9 @@ public class Utils {
     }
 
     webhook.send(new WebhookMessageBuilder()
-      .setContent(content
-        .replaceAll("\\$name", player.getEntityName()))
-      .setUsername(player.getEntityName())
-      .setAvatarUrl(config.getPlayerAvatar(player))
+      .setContent(getEntityValues(content, entity))
+      .setUsername(entity.getEntityName())
+      .setAvatarUrl(getEntityAvatar(entity))
       .build());
   }
 
@@ -53,5 +52,17 @@ public class Utils {
     boolean loaded = FabricLoader.getInstance().isModLoaded("fabric-permissions-api-v0");
     if (loaded) logger.info("Kings World: Using Fabric Permissions API");
     return loaded;
+  }
+
+  public static String getEntityAvatar(Entity entity) {
+    String url = config.getAvatarUrl();
+    if (url.isEmpty() || url.isBlank()) url = config.avatarUrl.getDefault();
+    return Utils.getEntityValues(url, entity);
+  }
+
+  public static String getEntityValues(String string, Entity entity) {
+    return string
+      .replaceAll("\\{uuid\\}", entity.getUuidAsString())
+      .replaceAll("\\{name\\}", entity.getEntityName());
   }
 }

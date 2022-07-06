@@ -1,3 +1,7 @@
+# 1.0.0-beta1.1
+
+- Send player death messages
+
 # 1.0.0-beta1.0
 
 - Send basic discord content to minecraft

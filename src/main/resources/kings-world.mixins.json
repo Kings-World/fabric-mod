@@ -4,8 +4,8 @@
   "package": "me.seren.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "DamageTrackerMixin",
     "PlayerManagerMixin",
-    "ServerPlayerEntityMixin",
     "ServerPlayNetworkHandlerMixin"
   ],
   "client": [],

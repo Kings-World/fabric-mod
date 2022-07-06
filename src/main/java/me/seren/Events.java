@@ -2,13 +2,13 @@ package me.seren;
 
 import club.minnced.discord.webhook.WebhookClient;
 import me.seren.discord.Client;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.network.message.SignedMessage;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.filter.FilteredMessage;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.crash.CrashReport;
+import net.minecraft.text.Text;
 import net.minecraft.util.registry.RegistryKey;
 
 import javax.security.auth.login.LoginException;
@@ -39,24 +39,18 @@ public final class Events {
   }
 
   public static void chatMessage(FilteredMessage<SignedMessage> message, ServerPlayerEntity sender, RegistryKey<MessageType> typeKey) {
-    Utils.sendPlayerWebhook(sender, "$name: " + message.raw().getContent().getString());
+    Utils.sendEntityWebhook(sender, "{name}: " + message.raw().getContent().getString());
   }
 
   public static void playerJoin(ServerPlayerEntity player) {
-    Utils.sendPlayerWebhook(player, ":arrow_right: $name has joined!");
+    Utils.sendEntityWebhook(player, ":arrow_right: {name} has joined!");
   }
 
   public static void playerLeave(ServerPlayerEntity player) {
-    Utils.sendPlayerWebhook(player, ":arrow_left: $name has left!");
+    Utils.sendEntityWebhook(player, ":arrow_left: {name} has left!");
   }
 
-  // TODO: get death message
-  public static void playerKilled(DamageSource source) {
-    System.out.println(source);
-  }
-
-  // TODO: get death message
-  public static void playerDeath(DamageSource source) {
-    System.out.println(source);
+  public static void playerDeath(Entity entity, Text text) {
+    Utils.sendEntityWebhook(entity, ":skull: " + text.getString());
   }
 }
