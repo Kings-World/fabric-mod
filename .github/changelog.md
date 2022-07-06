@@ -1,6 +1,7 @@
 # 1.0.0-beta1.1
 
 - Send player death messages
+- Send player advancement unlocks
 
 # 1.0.0-beta1.0
 
