@@ -2,8 +2,6 @@ package me.seren;
 
 import club.minnced.discord.webhook.WebhookClient;
 import me.seren.discord.Client;
-import net.minecraft.advancement.Advancement;
-import net.minecraft.advancement.AdvancementDisplay;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.network.message.SignedMessage;
@@ -14,8 +12,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.registry.RegistryKey;
 
 import javax.security.auth.login.LoginException;
-
-import java.util.Objects;
 
 import static me.seren.KingsWorld.*;
 
@@ -38,12 +34,18 @@ public final class Events {
     Utils.sendDiscordMessage(":white_check_mark: The server has started!");
   }
 
-  public static void serverStopped(MinecraftServer server) {
-    Utils.sendDiscordMessage(":octagonal_sign: The server has stopped!");
-  }
-
   public static void serverStopping(MinecraftServer server) {
+    logger.info("Sending server stopped message to discord");
+    Utils.sendDiscordMessage(":octagonal_sign: The server has stopped!");
+
+    logger.info("Deleting all slash commands");
     client.jda.updateCommands().queue();
+
+    logger.info("Closing the webhook connection");
+    webhook.close();
+
+    logger.info("Closing the JDA connection");
+    client.jda.shutdown();
   }
 
   public static void chatMessage(FilteredMessage<SignedMessage> message, ServerPlayerEntity sender, RegistryKey<MessageType> typeKey) {

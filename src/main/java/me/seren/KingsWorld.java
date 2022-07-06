@@ -35,7 +35,6 @@ public class KingsWorld implements ModInitializer {
     // fabric-lifecycle-events-v1
     ServerLifecycleEvents.SERVER_STARTING.register(Events::serverStarting);
     ServerLifecycleEvents.SERVER_STARTED.register(Events::serverStarted);
-    ServerLifecycleEvents.SERVER_STOPPED.register(Events::serverStopped);
     ServerLifecycleEvents.SERVER_STOPPING.register(Events::serverStopping);
 
     // fabric-message-api-v1

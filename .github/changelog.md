@@ -1,3 +1,8 @@
+# 1.0.0-beta1.2
+
+- Fixed issue of server getting stuck on "Thread Query Listener stopped"
+- Close all connections that the mod makes
+
 # 1.0.0-beta1.1
 
 - Send player death messages
