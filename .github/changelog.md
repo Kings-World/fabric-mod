@@ -3,6 +3,7 @@
 - Disable webhook mentions
 - Allow changing the bots status
 - Allow changing the bots activity
+- Removed the guild member intent
 
 # 1.0.0-beta1.3
 
