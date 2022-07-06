@@ -18,8 +18,6 @@ public class Client {
   public MinecraftServer server;
 
   public Client(MinecraftServer server) throws LoginException, InterruptedException {
-
-
     this.server = server;
     this.jda = JDABuilder
       .createDefault(config.getDiscordToken())
