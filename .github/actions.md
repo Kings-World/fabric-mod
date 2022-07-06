@@ -12,7 +12,7 @@
   - [x] Player chat `{name}: {message}`
   - [x] Player killed `:skull: {death_message}`
   - [x] Player death `:skull: {death_message}`
-  - [ ] Unlocked achievement
+  - [x] Unlocked achievement `:medal: {name} has completed the advancement **{achievement}**!`
 
 ### Discord
 

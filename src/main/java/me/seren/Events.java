@@ -2,6 +2,8 @@ package me.seren;
 
 import club.minnced.discord.webhook.WebhookClient;
 import me.seren.discord.Client;
+import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.AdvancementDisplay;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.network.message.SignedMessage;
@@ -12,6 +14,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.registry.RegistryKey;
 
 import javax.security.auth.login.LoginException;
+
+import java.util.Objects;
 
 import static me.seren.KingsWorld.*;
 
@@ -38,6 +42,10 @@ public final class Events {
     Utils.sendDiscordMessage(":octagonal_sign: The server has stopped!");
   }
 
+  public static void serverStopping(MinecraftServer server) {
+    client.jda.updateCommands().queue();
+  }
+
   public static void chatMessage(FilteredMessage<SignedMessage> message, ServerPlayerEntity sender, RegistryKey<MessageType> typeKey) {
     Utils.sendEntityWebhook(sender, "{name}: " + message.raw().getContent().getString());
   }
@@ -52,5 +60,9 @@ public final class Events {
 
   public static void playerDeath(Entity entity, Text text) {
     Utils.sendEntityWebhook(entity, ":skull: " + text.getString());
+  }
+
+  public static void playerAdvancement(ServerPlayerEntity player, String title) {
+    Utils.sendEntityWebhook(player, ":medal: {name} has completed the advancement **" + title + "**!");
   }
 }
