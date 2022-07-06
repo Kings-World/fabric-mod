@@ -35,7 +35,7 @@ public final class Events {
   }
 
   public static void serverStopping(MinecraftServer server) {
-    logger.info("Sending server stopped message to discord");
+    logger.info("Notifying discord");
     Utils.sendDiscordMessage(":octagonal_sign: The server has stopped!");
 
     logger.info("Deleting all slash commands");
