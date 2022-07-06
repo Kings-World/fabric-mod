@@ -2,6 +2,7 @@
 
 - Make deleting slash commands on server stop optional
 - Shorten the notifying discord message
+- Conditionally display shutdown logs
 
 # 1.0.0-beta1.2
 
