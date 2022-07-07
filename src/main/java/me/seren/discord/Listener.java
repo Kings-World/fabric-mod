@@ -59,10 +59,19 @@ public class Listener extends ListenerAdapter {
         String playerName = event.getOptions().get(0).getAsString();
         String content = event.getOptions().get(1).getAsString();
         ServerPlayerEntity player = this.client.server.getPlayerManager().getPlayer(playerName);
+
         if (player == null) {
-          event.reply("Player not found").setEphemeral(true).queue();
+          event.reply("No players were found with the name \"" + playerName + "\"")
+            .setEphemeral(true).queue();
           return;
         }
+
+        if (player.isDisconnected()) {
+          event.reply(player.getEntityName() + " is not currently online")
+            .setEphemeral(true).queue();
+          return;
+        }
+
         player.sendChatMessage(
           SignedMessage.of(Text.of(content)),
           MessageSender.of(Text.of(event.getUser().getAsTag())),
