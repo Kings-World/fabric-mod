@@ -60,14 +60,8 @@ public class Listener extends ListenerAdapter {
         String content = event.getOptions().get(1).getAsString();
         ServerPlayerEntity player = this.client.server.getPlayerManager().getPlayer(playerName);
 
-        if (player == null) {
-          event.reply("No players were found with the name \"" + playerName + "\"")
-            .setEphemeral(true).queue();
-          return;
-        }
-
-        if (player.isDisconnected()) {
-          event.reply(player.getEntityName() + " is not currently online")
+        if (player == null || player.isDisconnected()) {
+          event.reply("Provided player was not found or is not online")
             .setEphemeral(true).queue();
           return;
         }
