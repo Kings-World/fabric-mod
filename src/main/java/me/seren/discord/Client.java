@@ -23,23 +23,17 @@ public class Client {
       .createDefault(config.getDiscordToken())
       .addEventListeners(new Listener(this))
       .enableIntents(GatewayIntent.GUILD_MESSAGES)
-      .setActivity(getActivity())
+      .setActivity(getActivityFromConfig())
       .setStatus(config.getClientStatus())
       .build()
       .awaitReady();
   }
 
-  private Activity getActivity() {
+  private Activity getActivityFromConfig() {
     if (config.getActivityType().equals(ActivityTypes.NONE)) return null;
     return Activity.of(
       ActivityType.valueOf(config.getActivityType().name()),
       config.getActivityName()
     );
-  }
-
-  public void addAndUpdateCommands(JDA jda) {
-    jda.updateCommands().addCommands(
-      Commands.slash("list", "View a list of online players")
-    ).queue();
   }
 }
