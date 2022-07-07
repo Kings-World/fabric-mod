@@ -68,7 +68,8 @@ public class Listener extends ListenerAdapter {
           MessageSender.of(Text.of(event.getUser().getAsTag())),
           MessageType.MSG_COMMAND
         );
-        event.reply("Your message has been sent to " + player.getEntityName()).setEphemeral(true).queue();
+        event.reply("Your message has been sent to " + player.getEntityName())
+          .setEphemeral(true).queue();
       }
     }
   }
