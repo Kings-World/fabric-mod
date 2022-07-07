@@ -1,5 +1,6 @@
 # 1.0.0-beta1.5
 
+- Prevent sending animal deaths
 - Added a message slash command
 - Start the bot once the server has finished starting
 
