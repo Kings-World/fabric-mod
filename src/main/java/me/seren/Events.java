@@ -16,7 +16,25 @@ import javax.security.auth.login.LoginException;
 import static me.seren.KingsWorld.*;
 
 public final class Events {
-  public static void serverStarting(MinecraftServer server) {
+//  public static void serverStarting(MinecraftServer server) {
+//    if (config.isValidWebhookUrl()) {
+//      webhook = WebhookClient.withUrl(config.getWebhookUrl());
+//    } else {
+//      logger.error("Config[Webhook]: Failed to parse webhook URL");
+//    }
+//
+//    try {
+//      client = new Client(server);
+//    } catch (LoginException | InterruptedException e) {
+//      logger.error("Config[Discord]: " + e.getLocalizedMessage());
+//    }
+//  }
+
+//  public static void serverStarted(MinecraftServer server) {
+//    Utils.sendDiscordMessage(":white_check_mark: The server has started!");
+//  }
+
+  public static void serverStarted(MinecraftServer server) {
     if (config.isValidWebhookUrl()) {
       webhook = WebhookClient.withUrl(config.getWebhookUrl());
     } else {
@@ -25,13 +43,10 @@ public final class Events {
 
     try {
       client = new Client(server);
+      Utils.sendDiscordMessage(":white_check_mark: The server has started!");
     } catch (LoginException | InterruptedException e) {
       logger.error("Config[Discord]: " + e.getLocalizedMessage());
     }
-  }
-
-  public static void serverStarted(MinecraftServer server) {
-    Utils.sendDiscordMessage(":white_check_mark: The server has started!");
   }
 
   public static void serverStopping(MinecraftServer server) {

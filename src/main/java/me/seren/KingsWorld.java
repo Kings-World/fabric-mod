@@ -33,7 +33,7 @@ public class KingsWorld implements ModInitializer {
 
   private void registerEvents() {
     // fabric-lifecycle-events-v1
-    ServerLifecycleEvents.SERVER_STARTING.register(Events::serverStarting);
+//    ServerLifecycleEvents.SERVER_STARTING.register(Events::serverStarting);
     ServerLifecycleEvents.SERVER_STARTED.register(Events::serverStarted);
     ServerLifecycleEvents.SERVER_STOPPING.register(Events::serverStopping);
 
