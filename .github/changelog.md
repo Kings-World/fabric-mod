@@ -1,6 +1,7 @@
 # 1.0.0-beta1.5
 
 - Added a message slash command
+- Start the bot once the server has finished starting
 
 # 1.0.0-beta1.4
 
