@@ -24,7 +24,7 @@ jobs:
       - name: execute gradle
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build githubRelease modrinth --stacktrace
+          arguments: build githubRelease modrinth --scan
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
