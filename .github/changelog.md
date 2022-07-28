@@ -1,3 +1,11 @@
+# 1.0.0-beta1.6
+
+- Changed configuration file from `kingsworld.properties` to `kingsworld/config.yml`
+- Replaced config builder with configurate
+- Added more user customization
+- Replaced `/discord <message>` with `/kingsworld send <message>`
+- Added `/kingsworld reload`
+
 # 1.0.0-beta1.5
 
 - Prevent sending animal deaths
