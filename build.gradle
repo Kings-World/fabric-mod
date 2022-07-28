@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
   id "java"
   id "fabric-loom" version "0.12-SNAPSHOT"
@@ -17,10 +19,6 @@ repositories {
   maven {
     url "https://oss.sonatype.org/content/repositories/snapshots"
   }
-  maven {
-    name = "henkelmax.public"
-    url = "https://maven.maxhenkel.de/repository/public"
-  }
 }
 
 dependencies {
@@ -32,13 +30,13 @@ dependencies {
   modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
   modImplementation "me.lucko:fabric-permissions-api:$perms_version"
 
-  implementation "de.maxhenkel.configbuilder:configbuilder:$configbuilder_version"
+  implementation "org.spongepowered:configurate-yaml:$configurate_version"
   implementation "club.minnced:discord-webhooks:$webhooks_version"
   implementation("net.dv8tion:JDA:$jda_version") {
     exclude module: "opus-java"
   }
 
-  shadow "de.maxhenkel.configbuilder:configbuilder:$configbuilder_version"
+  shadow "org.spongepowered:configurate-yaml:$configurate_version"
   shadow "club.minnced:discord-webhooks:$webhooks_version"
   shadow("net.dv8tion:JDA:$jda_version") {
     exclude module: "opus-java"
@@ -47,6 +45,9 @@ dependencies {
 
 processResources {
   inputs.property "version", project.version
+  filter(ReplaceTokens, beginToken: "\${", endToken: "}", tokens: [
+    version: project.version
+  ])
 
   filesMatching("fabric.mod.json") {
     expand "version": project.version

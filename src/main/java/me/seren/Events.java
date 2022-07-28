@@ -16,45 +16,39 @@ import javax.security.auth.login.LoginException;
 import static me.seren.KingsWorld.*;
 
 public final class Events {
-//  public static void serverStarting(MinecraftServer server) {
-//    if (config.isValidWebhookUrl()) {
-//      webhook = WebhookClient.withUrl(config.getWebhookUrl());
-//    } else {
-//      logger.error("Config[Webhook]: Failed to parse webhook URL");
-//    }
-//
-//    try {
-//      client = new Client(server);
-//    } catch (LoginException | InterruptedException e) {
-//      logger.error("Config[Discord]: " + e.getLocalizedMessage());
-//    }
-//  }
+  public static void serverStarting(MinecraftServer server) {
+    loadConfig();
 
-//  public static void serverStarted(MinecraftServer server) {
-//    Utils.sendDiscordMessage(":white_check_mark: The server has started!");
-//  }
-
-  public static void serverStarted(MinecraftServer server) {
-    if (config.isValidWebhookUrl()) {
-      webhook = WebhookClient.withUrl(config.getWebhookUrl());
-    } else {
-      logger.error("Config[Webhook]: Failed to parse webhook URL");
+    logger.info("Creating webhook client...");
+    try {
+      webhook = WebhookClient.withUrl(modConfig.getWebhookUrl());
+    } catch (IllegalArgumentException e) {
+      logger.error(e.getMessage());
     }
 
+    logger.info("Creating discord client...");
     try {
       client = new Client(server);
-      Utils.sendDiscordMessage(":white_check_mark: The server has started!");
     } catch (LoginException | InterruptedException e) {
-      logger.error("Config[Discord]: " + e.getLocalizedMessage());
+      logger.error(e.getMessage());
     }
+  }
+
+  public static void serverStarted(MinecraftServer server) {
+    Utils.setStartedPresence();
+
+    if (modConfig.getServerStartedMessage().isBlank()) return;
+    Utils.sendDiscordMessage(modConfig.getServerStartedMessage());
   }
 
   public static void serverStopping(MinecraftServer server) {
     if (client != null) {
-      logger.info("Notifying discord");
-      Utils.sendDiscordMessage(":octagonal_sign: The server has stopped!");
+      if (!modConfig.getServerStoppedMessage().isBlank()) {
+        logger.info("Notifying discord");
+        Utils.sendDiscordMessage(modConfig.getServerStoppedMessage());
+      }
 
-      if (!config.shouldPersistCommands()) {
+      if (!modConfig.getPersistCommands()) {
         logger.info("Deleting all slash commands");
         client.jda.updateCommands().queue();
       }
@@ -70,23 +64,30 @@ public final class Events {
   }
 
   public static void chatMessage(FilteredMessage<SignedMessage> message, ServerPlayerEntity sender, RegistryKey<MessageType> typeKey) {
-    Utils.sendEntityWebhook(sender, "{name}: " + message.raw().getContent().getString());
+    if (modConfig.getChatMessage().isBlank()) return;
+    Utils.sendEntityWebhook(sender, modConfig.getChatMessage()
+      .replaceAll("\\{content\\}", message.raw().getContent().getString()));
   }
 
   public static void playerJoin(ServerPlayerEntity player) {
-    Utils.sendEntityWebhook(player, ":arrow_right: {name} has joined!");
+    if (modConfig.getPlayerJoinMessage().isBlank()) return;
+    Utils.sendEntityWebhook(player, modConfig.getPlayerJoinMessage());
   }
 
   public static void playerLeave(ServerPlayerEntity player) {
-    Utils.sendEntityWebhook(player, ":arrow_left: {name} has left!");
+    if (modConfig.getPlayerLeaveMessage().isBlank()) return;
+    Utils.sendEntityWebhook(player, modConfig.getPlayerLeaveMessage());
   }
 
   public static void playerDeath(Entity entity, Text text) {
-    if (!entity.isPlayer()) return;
-    Utils.sendEntityWebhook(entity, ":skull: " + text.getString());
+    if (!entity.isPlayer() || modConfig.getPlayerDeathMessage().isBlank()) return;
+    Utils.sendEntityWebhook(entity, modConfig.getPlayerDeathMessage()
+      .replaceAll("\\{message\\}", text.getString()));
   }
 
   public static void playerAdvancement(ServerPlayerEntity player, String title) {
-    Utils.sendEntityWebhook(player, ":medal: {name} has completed the advancement **" + title + "**!");
+    if (modConfig.getPlayerAdvancementMessage().isBlank()) return;
+    Utils.sendEntityWebhook(player, modConfig.getPlayerAdvancementMessage()
+      .replaceAll("\\{title\\}", title));
   }
 }

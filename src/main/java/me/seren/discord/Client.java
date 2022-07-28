@@ -1,17 +1,14 @@
 package me.seren.discord;
 
-import me.seren.config.Config.ActivityTypes;
+import me.seren.Utils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Activity.ActivityType;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.minecraft.server.MinecraftServer;
 
 import javax.security.auth.login.LoginException;
 
-import static me.seren.KingsWorld.config;
+import static me.seren.KingsWorld.modConfig;
 
 public class Client {
   public JDA jda;
@@ -20,20 +17,12 @@ public class Client {
   public Client(MinecraftServer server) throws LoginException, InterruptedException {
     this.server = server;
     this.jda = JDABuilder
-      .createDefault(config.getDiscordToken())
+      .createDefault(modConfig.getDiscordToken())
       .addEventListeners(new Listener(this))
-      .enableIntents(GatewayIntent.GUILD_MESSAGES)
-      .setActivity(getActivityFromConfig())
-      .setStatus(config.getClientStatus())
+      .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
+      .setActivity(Utils.activityOf(Utils.ActivityChoices.STARTING))
+      .setStatus(modConfig.getStartingActivityStatus())
       .build()
       .awaitReady();
-  }
-
-  private Activity getActivityFromConfig() {
-    if (config.getActivityType().equals(ActivityTypes.NONE)) return null;
-    return Activity.of(
-      ActivityType.valueOf(config.getActivityType().name()),
-      config.getActivityName()
-    );
   }
 }

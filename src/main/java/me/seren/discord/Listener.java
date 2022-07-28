@@ -17,10 +17,9 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.UUID;
 
-import static me.seren.KingsWorld.config;
 import static me.seren.KingsWorld.logger;
+import static me.seren.KingsWorld.modConfig;
 
 public class Listener extends ListenerAdapter {
   public Client client;
@@ -94,7 +93,7 @@ public class Listener extends ListenerAdapter {
     User author = event.getAuthor();
     String channelId = event.getMessage().getChannel().getId();
     if (event.isWebhookMessage() || author.isBot() || author.isSystem()) return;
-    if (content.isBlank() || !channelId.equals(config.getChannelId())) return;
+    if (content.isBlank() || !channelId.equals(modConfig.getChannelId())) return;
 
     this.client.server.getPlayerManager().broadcast(Text.literal(
       String.format("<%s> %s", author.getAsTag(), content)
