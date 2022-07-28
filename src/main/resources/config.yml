@@ -92,16 +92,16 @@ messages:
 
   # The message that is sent to Discord when a player sends a message on minecraft
   # The following placeholders can be used:
-  #  {name} - The player's name
-  #  {uuid} - The player's id
-  #  {content} - The player's message
+  # - {name}: The player's name
+  # - {uuid}: The player's id
+  # - {content}: The player's message
   # Have any placeholder suggestions? Feel free to suggest them to us
   chat_message: "{name}: {content}"
 
   # The message that is sent to Discord when a player joins the server
   # The following placeholders can be used:
-  #  {name} - The player's name
-  #  {uuid} - The player's id
+  # - {name}: The player's name
+  # - {uuid}: The player's id
   # Have any placeholder suggestions? Feel free to suggest them to us
   player_join: ":arrow_right: {name} has joined!"
 
