@@ -8,7 +8,6 @@ import net.minecraft.text.Text;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
-import static me.seren.KingsWorld.modConfig;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -29,7 +28,7 @@ public class MainCommand {
   }
 
   private static int reload(CommandContext<ServerCommandSource> ctx) {
-    modConfig.reload();
+    Utils.reloadModConfig(ctx.getSource().getServer());
     ctx.getSource().sendFeedback(Text.literal("The config has been reloaded"), true);
     return 1;
   }

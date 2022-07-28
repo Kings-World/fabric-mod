@@ -1,16 +1,20 @@
 package me.seren;
 
+import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.AllowedMentions;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.lucko.fabric.api.permissions.v0.Permissions;
+import me.seren.discord.Client;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.managers.Presence;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 
+import javax.security.auth.login.LoginException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
@@ -58,11 +62,40 @@ public class Utils {
       .build());
   }
 
+  public static void initializeWebhook() {
+    logger.info("Creating webhook client...");
+    try {
+      webhook = WebhookClient.withUrl(modConfig.getWebhookUrl());
+    } catch (IllegalArgumentException e) {
+      logger.error(e.getMessage());
+    }
+  }
+
+  public static void initializeClient(MinecraftServer server) {
+    logger.info("Creating discord client...");
+    try {
+      client = new Client(server);
+    } catch (LoginException | InterruptedException e) {
+      logger.error(e.getMessage());
+    }
+  }
+
   public static void setStartedPresence() {
     if (client == null) return;
     Presence presence = client.jda.getPresence();
     presence.setActivity(Utils.activityOf(Utils.ActivityChoices.STARTED));
     presence.setStatus(modConfig.getStartedActivityStatus());
+  }
+
+  public static void reloadModConfig(MinecraftServer server) {
+    modConfig.reloadFile();
+
+    if (webhook != null) webhook.close();
+    initializeWebhook();
+
+    if (client != null) client.jda.shutdown();
+    initializeClient(server);
+    setStartedPresence();
   }
 
   public static Predicate<ServerCommandSource> requirePermission(String permission, int defaultLevel) {

@@ -13,9 +13,8 @@ public class ModConfig {
     config.load();
   }
 
-  public void reload() {
+  public void reloadFile() {
     config.load();
-    Utils.setStartedPresence();
   }
 
   public String getWebhookUrl() {

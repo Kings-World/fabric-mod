@@ -1,3 +1,10 @@
+# 1.0.0-beta1.7
+
+- Reload webhook from config
+  - Close the old webhook if one exists
+- Reload client from config
+  - Shutdown the old client if one exists
+
 # 1.0.0-beta1.6
 
 - Changed configuration file from `kingsworld.properties` to `kingsworld/config.yml`

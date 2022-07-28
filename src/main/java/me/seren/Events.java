@@ -1,7 +1,5 @@
 package me.seren;
 
-import club.minnced.discord.webhook.WebhookClient;
-import me.seren.discord.Client;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.network.message.SignedMessage;
@@ -11,27 +9,13 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.registry.RegistryKey;
 
-import javax.security.auth.login.LoginException;
-
 import static me.seren.KingsWorld.*;
 
 public final class Events {
   public static void serverStarting(MinecraftServer server) {
     loadConfig();
-
-    logger.info("Creating webhook client...");
-    try {
-      webhook = WebhookClient.withUrl(modConfig.getWebhookUrl());
-    } catch (IllegalArgumentException e) {
-      logger.error(e.getMessage());
-    }
-
-    logger.info("Creating discord client...");
-    try {
-      client = new Client(server);
-    } catch (LoginException | InterruptedException e) {
-      logger.error(e.getMessage());
-    }
+    Utils.initializeWebhook();
+    Utils.initializeClient(server);
   }
 
   public static void serverStarted(MinecraftServer server) {
