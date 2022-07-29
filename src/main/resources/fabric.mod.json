@@ -9,7 +9,7 @@
     "homepage": "https://kings-world.net",
     "sources": "https://github.com/Kings-World/fabric-mod"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/kings-world/icon.png",
   "environment": "server",
   "entrypoints": {
