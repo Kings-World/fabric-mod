@@ -1,7 +1,8 @@
 name: discord
 on:
-  release:
-    types: [created]
+  workflow_dispatch:
+  workflow_run:
+    types: [completed]
     
 jobs:
   discord:
