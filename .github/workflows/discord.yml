@@ -1,0 +1,27 @@
+name: discord
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+    
+jobs:
+  discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Send discord message
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          username: Kings World
+          avatar_url: https://kings-world.net/logo.png
+          message: |
+            Kings World **${{ github.ref_name }}** has been released!
+            
+            **Modrinth**:
+            <https://modrinth.com/mod/kings-world/version/${{ github.ref_name }}>
+            
+            **GitHub**:
+            <https://github.com/Kings-World/fabric-mod/releases/tag/${{ github.ref_name }}>
