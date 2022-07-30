@@ -6,9 +6,8 @@
   - Configurate does not work with Fabric-Loom
   - Note: Confabricate does not support 1.19
 - Included dependencies required by `club.minnced:discord-webhooks`
-  - I may make a custom discord webhooks client because the required
-  - Note: This increases the mod's JAR file with an additional 5MB
-    (Before: 2mb, After: 7mb)
+  - I may make a custom discord webhooks client in the future to reduce the JAR file size
+- Removed the source link (until I open source the repository)
 
 # 1.0.0-beta1.7
 

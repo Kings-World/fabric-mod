@@ -22,6 +22,11 @@ A fabric mod that links Minecraft and Discord together. This mod was specificall
 4. Go to your server's config folder and fill in the required information.
 5. Restart your server and you are good to go.
 
+## Commands
+
+- `/kingsworld send <message>`: Send a message to the Discord channel.
+- `/kingsworld reload`: Reload the config file.
+
 ## Credits
 
 - [SerenModz21](https://github.com/SerenModz21), for making the mod.
