@@ -6,8 +6,7 @@
   "description": "A Discord to Minecraft bridge for Kings MC",
   "authors": ["SerenModz21"],
   "contact": {
-    "homepage": "https://kings-world.net",
-    "sources": "https://github.com/Kings-World/fabric-mod"
+    "homepage": "https://kings-world.net"
   },
   "license": "MIT",
   "icon": "assets/kings-world/icon.png",
