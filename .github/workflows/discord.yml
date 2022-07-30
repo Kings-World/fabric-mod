@@ -8,8 +8,6 @@ jobs:
   discord:
     runs-on: ubuntu-latest
     steps:
-      #- name: Checkout repository
-      #  uses: actions/checkout@v3
       - name: Send discord message
         uses: appleboy/discord-action@master
         with:
