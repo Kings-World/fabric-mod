@@ -1,20 +1,21 @@
 package me.seren.config;
 
-import me.seren.KingsWorld;
 import me.seren.Utils;
-import me.seren.config.core.YamlConfig;
 import net.dv8tion.jda.api.OnlineStatus;
+import org.bspfsystems.yamlconfiguration.file.YamlConfiguration;
 
 public class ModConfig {
-  private final YamlConfig config;
+  public final Yaml yaml;
+  private final YamlConfiguration config;
 
   public ModConfig(String file) {
-    this.config = new YamlConfig(Utils.configFolder().resolve(file).toFile(), file, KingsWorld.class);
-    config.load();
+    this.yaml = new Yaml(Utils.configFolder().resolve(file).toFile(), file);
+    this.config = yaml.getConfig();
+    yaml.load();
   }
 
   public void reloadFile() {
-    config.load();
+    yaml.load();
   }
 
   public String getWebhookUrl() {

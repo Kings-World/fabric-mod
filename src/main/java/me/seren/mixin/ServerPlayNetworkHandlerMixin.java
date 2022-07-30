@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerPlayNetworkHandlerMixin {
   @Shadow public ServerPlayerEntity player;
 
-  @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;onDisconnect()V"), method = "onDisconnected")
+  @Inject(at = @At("HEAD"), method = "onDisconnected")
   private void onPlayerLeave(Text reason, CallbackInfo info) {
     Events.playerLeave(this.player);
   }

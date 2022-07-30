@@ -3,7 +3,6 @@ import org.apache.tools.ant.filters.ReplaceTokens
 plugins {
   id "java"
   id "fabric-loom" version "0.12-SNAPSHOT"
-  id "com.github.johnrengelman.shadow" version "7.1.2"
   id "com.github.breadmoirai.github-release" version "2.4.1"
   id "com.modrinth.minotaur" version "2.+"
 }
@@ -20,6 +19,11 @@ repositories {
   maven {
     url "https://oss.sonatype.org/content/repositories/snapshots"
   }
+  // used by yamlconfiguration
+  maven {
+    url "https://oss.sonatype.org/content/repositories/releases"
+  }
+  mavenCentral()
 }
 
 dependencies {
@@ -30,17 +34,24 @@ dependencies {
   modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
   modImplementation "me.lucko:fabric-permissions-api:$perms_version"
 
-  implementation "org.spongepowered:configurate-yaml:$configurate_version"
-  implementation "club.minnced:discord-webhooks:$webhooks_version"
-  implementation("net.dv8tion:JDA:$jda_version") {
+  modImplementation include("org.bspfsystems:yamlconfiguration:$yaml_version")
+  implementation include("club.minnced:discord-webhooks:$webhooks_version")
+  modImplementation include("net.dv8tion:JDA:$jda_version") {
     exclude module: "opus-java"
   }
 
-  shadow "org.spongepowered:configurate-yaml:$configurate_version"
-  shadow "club.minnced:discord-webhooks:$webhooks_version"
-  shadow("net.dv8tion:JDA:$jda_version") {
-    exclude module: "opus-java"
-  }
+  // required by discord-webhooks
+  // i should maybe write my own webhooks library because these includes bump the jar size from 2mb to 7mb
+  // credits to https://github.com/arthurbambou/Fabric---Discord-Link/blob/master/common/build.gradle for listing these includes
+  include "net.sf.trove4j:trove4j:3.0.3"
+  include "org.apache.commons:commons-collections4:4.1"
+  include "com.neovisionaries:nv-websocket-client:2.14"
+  include "com.squareup.okhttp3:okhttp:3.14.9"
+  include "com.squareup.okio:okio:1.17.2"
+  include "com.fasterxml.jackson.core:jackson-databind:2.10.1"
+  include "com.fasterxml.jackson.core:jackson-annotations:2.10.1"
+  include "com.fasterxml.jackson.core:jackson-core:2.10.1"
+  include "org.json:json:20210307"
 }
 
 processResources {
@@ -49,9 +60,9 @@ processResources {
     version: project.version
   ])
 
-  filesMatching("fabric.mod.json") {
-    expand "version": project.version
-  }
+//  filesMatching("fabric.mod.json") {
+//    expand "version": project.version
+//  }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -110,17 +121,4 @@ tasks.modrinth.configure {
   group = "publishing"
   onlyIf { System.getenv("MODRINTH_TOKEN") }
   dependsOn(build, modrinthSyncBody)
-}
-
-// credits to https://github.com/axieum/minecord/blob/main/minecord-api/build.gradle
-// i have added minimize() to keep the jar as small as it can be
-shadowJar {
-  minimize()
-  configurations = [project.configurations.shadow]
-}
-
-// credits to https://github.com/axieum/minecord/blob/main/minecord-api/build.gradle
-remapJar {
-  dependsOn tasks.shadowJar
-  inputFile.set(tasks.shadowJar.archiveFile)
 }
