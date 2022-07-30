@@ -44,13 +44,13 @@ dependencies {
   // i should maybe write my own webhooks library because these includes bump the jar size from 2mb to 7mb
   // credits to https://github.com/arthurbambou/Fabric---Discord-Link/blob/master/common/build.gradle for listing these includes
   include "net.sf.trove4j:trove4j:3.0.3"
-  include "org.apache.commons:commons-collections4:4.1"
+  include "org.apache.commons:commons-collections4:4.4"
   include "com.neovisionaries:nv-websocket-client:2.14"
   include "com.squareup.okhttp3:okhttp:3.14.9"
-  include "com.squareup.okio:okio:1.17.2"
-  include "com.fasterxml.jackson.core:jackson-databind:2.10.1"
-  include "com.fasterxml.jackson.core:jackson-annotations:2.10.1"
-  include "com.fasterxml.jackson.core:jackson-core:2.10.1"
+  include "com.squareup.okio:okio:1.17.5"
+  include "com.fasterxml.jackson.core:jackson-databind:2.13.3"
+  include "com.fasterxml.jackson.core:jackson-annotations:2.13.3"
+  include "com.fasterxml.jackson.core:jackson-core:2.13.3"
   include "org.json:json:20210307"
 }
 
