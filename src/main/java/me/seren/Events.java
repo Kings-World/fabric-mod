@@ -26,6 +26,11 @@ public final class Events {
   }
 
   public static void serverStopping(MinecraftServer server) {
+    if (webhook != null) {
+      logger.info("Closing the webhook connection");
+      webhook.close();
+    }
+
     if (client != null) {
       if (!modConfig.getServerStoppedMessage().isBlank()) {
         logger.info("Notifying discord");
@@ -39,11 +44,6 @@ public final class Events {
 
       logger.info("Closing the JDA connection");
       client.jda.shutdown();
-    }
-
-    if (webhook != null) {
-      logger.info("Closing the webhook connection");
-      webhook.close();
     }
   }
 
