@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static me.seren.KingsWorld.logger;
 
@@ -20,8 +21,13 @@ public class Yaml {
     this.templateName = templateName;
 
     if (!configFile.exists() && templateName != null) {
-      Class<?> resourceClass = Yaml.class;
-      try (final InputStream is = resourceClass.getResourceAsStream("/" + templateName)) {
+      try {
+        Files.createDirectories(Path.of(configFile.getParent()));
+      } catch (IOException e) {
+        logger.error("Failed to create config directory", e);
+      }
+
+      try (final InputStream is = Yaml.class.getResourceAsStream("/" + templateName)) {
         logger.info("Creating config from template: {}", configFile);
         if (is == null) {
           logger.error("Failed to load template: {}", templateName);

@@ -59,10 +59,6 @@ processResources {
   filter(ReplaceTokens, beginToken: "\${", endToken: "}", tokens: [
     version: project.version
   ])
-
-//  filesMatching("fabric.mod.json") {
-//    expand "version": project.version
-//  }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -111,8 +107,7 @@ modrinth {
   changelog = file(".github/changelog.md").text
   syncBodyFrom = file("README.md").text
   dependencies {
-    required.project "P7dR8mSH" // Fabric API
-    // required.version "Zp275COe" // Fabric API 0.57.0+1.19
+    required.version "3KmOcp6b" // Fabric API 0.58.0+1.19
     optional.project "Vebnzrzj" // LuckPerms
   }
 }
