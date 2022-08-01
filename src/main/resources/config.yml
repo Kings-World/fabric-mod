@@ -5,7 +5,7 @@
 # Made for Version ${version}
 
 # [Required] The channel webhook used to send minecraft actions to Discord
-# Must have "Manage Webhooks" permission to create a webhook
+# Must have "Manage Webhooks" permission to create a webhook (image guide: https://seren.link/GfBB)
 webhook_url: ""
 
 # The URL which should be used to get the avatars of users
@@ -14,7 +14,7 @@ avatar_url: https://crafthead.net/helm/{uuid}
 
 # [Required] Your discord bot token
 # To create a bot, go to https://discord.com/developers/applications
-# New Application > Bot (left side) > New Bot > Copy Token
+# New Application > Bot (left side) > New Bot > Copy Token (image guide: https://seren.link/9Y13)
 discord_token: ""
 
 # [Required] The ID of the channel used to send Minecraft actions to Discord
