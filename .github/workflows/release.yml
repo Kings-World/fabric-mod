@@ -31,20 +31,3 @@ jobs:
           GITHUB_OWNER: ${{ github.repository_owner }}
           GITHUB_REPO: ${{ github.event.repository.name }}
           GITHUB_REF_NAME: ${{ github.ref_name }}
-
-  discord:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send discord message
-        uses: appleboy/discord-action@master
-        with:
-          webhook_id: ${{ secrets.WEBHOOK_ID }}
-          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          message: |
-            Kings World **${{ github.ref_name }}** has been released!
-            
-            **Modrinth**:
-            <https://modrinth.com/mod/kings-world/version/${{ github.ref_name }}>
-            
-            **GitHub**:
-            <https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}>
