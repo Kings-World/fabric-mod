@@ -24,6 +24,7 @@ A fabric mod that links Minecraft and Discord together. This mod was specificall
 
 ## Commands
 
+- `/kingsworld`: Displays the current version of the mod.
 - `/kingsworld send <message>`: Send a message to the Discord channel.
 - `/kingsworld reload`: Reload the config file.
 
