@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KingsWorld implements ModInitializer {
-  public static final String modId = "KingsWorld";
+  public static final String modId = "kings-world";
   public static final Logger logger = LoggerFactory.getLogger(modId);
   public static WebhookClient webhook;
   public static Client client;
