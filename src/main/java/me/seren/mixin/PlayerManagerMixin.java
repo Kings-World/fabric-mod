@@ -15,4 +15,9 @@ public class PlayerManagerMixin {
   private void onPlayerJoin(ClientConnection connection, ServerPlayerEntity player, CallbackInfo info) {
     Events.playerJoin(player);
   }
+
+  @Inject(at = @At("HEAD"), method = "remove")
+  private void onPlayerLeave(ServerPlayerEntity player, CallbackInfo info) {
+    Events.playerLeave(player);
+  }
 }
