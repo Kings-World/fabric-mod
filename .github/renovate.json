@@ -5,6 +5,17 @@
     {
       "matchPackagePatterns": ["fabric-loom", "^net.fabricmc"],
       "enabled": false
+    },
+    {
+      "matchPackagePatterns": [
+        "^net.sf.trove4j",
+        "^org.apache.commons",
+        "^com.neovisionaries",
+        "^com.squareup",
+        "^com.fasterxml.jackson.core",
+        "^org.json"
+      ],
+      "enabled": false
     }
   ]
 }
