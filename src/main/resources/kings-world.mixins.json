@@ -6,7 +6,8 @@
   "mixins": [
     "DamageTrackerMixin",
     "PlayerAdvancementTrackerMixin",
-    "PlayerManagerMixin"
+    "PlayerManagerMixin",
+    "ServerPlayNetworkHandlerMixin"
   ],
   "client": [],
   "injectors": {
