@@ -40,8 +40,8 @@ dependencies {
     exclude module: "opus-java"
   }
 
-  // required by discord-webhooks
-  // i should maybe write my own webhooks library because these includes bump the jar size from 2mb to 7mb
+  // required by discord-webhooks and jda
+  // i should maybe change to something else because these includes bump the jar size from 2mb to 7mb
   // credits to https://github.com/arthurbambou/Fabric---Discord-Link/blob/master/common/build.gradle for listing these includes
   include "net.sf.trove4j:trove4j:3.0.3"
   include "org.apache.commons:commons-collections4:4.1"

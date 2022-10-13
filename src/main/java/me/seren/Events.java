@@ -32,6 +32,9 @@ public final class Events {
     }
 
     if (client != null) {
+      logger.info("Removing the JDA event listener");
+      client.jda.removeEventListener(client.listener);
+
       if (!modConfig.getServerStoppedMessage().isBlank()) {
         logger.info("Notifying discord");
         Utils.sendDiscordMessage(modConfig.getServerStoppedMessage());
@@ -41,10 +44,13 @@ public final class Events {
         logger.info("Deleting all slash commands");
         client.jda.updateCommands().queue();
       }
-
-      logger.info("Closing the JDA connection");
-      client.jda.shutdown();
     }
+  }
+
+  public static void serverStopped(MinecraftServer server) {
+    if (client == null) return;
+    logger.info("Closing the JDA connection");
+    client.jda.shutdownNow();
   }
 
   public static void chatMessage(FilteredMessage<SignedMessage> message, ServerPlayerEntity sender, RegistryKey<MessageType> typeKey) {

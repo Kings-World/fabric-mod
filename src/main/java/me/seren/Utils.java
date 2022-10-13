@@ -7,7 +7,7 @@ import me.lucko.fabric.api.permissions.v0.Permissions;
 import me.seren.discord.Client;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.managers.Presence;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
@@ -46,13 +46,13 @@ public class Utils {
       logger.warn("I'm unable to talk in the channel #" + channel.getName());
       return "I'm unable to talk in the channel #" + channel.getName();
     } else {
-      channel.sendMessage(text).allowedMentions(jdaMentions).queue();
+      channel.sendMessage(text).setAllowedMentions(jdaMentions).queue();
       return "The message has been sent to #" + channel.getName();
     }
   }
 
   public static void sendEntityWebhook(Entity entity, String content) {
-    if (webhook == null) return;
+    if (webhook == null || webhook.isShutdown()) return;
 
     webhook.send(new WebhookMessageBuilder()
       .setContent(getEntityValues(content, entity))
