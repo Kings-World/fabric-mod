@@ -8,6 +8,7 @@ import net.minecraft.server.filter.FilteredMessage;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.registry.RegistryKey;
+import okhttp3.OkHttpClient;
 
 import static me.seren.KingsWorld.*;
 
@@ -26,37 +27,41 @@ public final class Events {
   }
 
   public static void serverStopping(MinecraftServer server) {
-    if (webhook != null) {
-      logger.info("Closing the webhook connection");
-      webhook.close();
+    if (client == null) return;
+    logger.info("Removing the JDA event listener");
+    client.jda.removeEventListener(client.listener);
+
+    if (!modConfig.getServerStoppedMessage().isBlank()) {
+      logger.info("Sending the server stopped message");
+      Utils.sendDiscordMessage(modConfig.getServerStoppedMessage());
     }
 
-    if (client != null) {
-      logger.info("Removing the JDA event listener");
-      client.jda.removeEventListener(client.listener);
-
-      if (!modConfig.getServerStoppedMessage().isBlank()) {
-        logger.info("Notifying discord");
-        Utils.sendDiscordMessage(modConfig.getServerStoppedMessage());
-      }
-
-      if (!modConfig.getPersistCommands()) {
-        logger.info("Deleting all slash commands");
-        client.jda.updateCommands().queue();
-      }
+    if (!modConfig.getPersistCommands()) {
+      logger.info("Deleting all slash commands");
+      client.jda.updateCommands().queue();
     }
   }
 
   public static void serverStopped(MinecraftServer server) {
-    if (client == null) return;
-    logger.info("Closing the JDA connection");
-    client.jda.shutdownNow();
+    if (webhook != null) {
+      logger.info("Shutting down the webhook client");
+      webhook.close();
+    }
+
+    if (client != null) {
+      logger.info("Shutting down the JDA client");
+      client.jda.shutdownNow();
+
+      OkHttpClient httpClient = client.jda.getHttpClient();
+      httpClient.connectionPool().evictAll();
+      httpClient.dispatcher().executorService().shutdown();
+    }
   }
 
   public static void chatMessage(FilteredMessage<SignedMessage> message, ServerPlayerEntity sender, RegistryKey<MessageType> typeKey) {
     if (modConfig.getChatMessage().isBlank()) return;
     Utils.sendEntityWebhook(sender, modConfig.getChatMessage()
-      .replaceAll("\\{content\\}", message.raw().getContent().getString()));
+      .replaceAll("\\{content}", message.raw().getContent().getString()));
   }
 
   public static void playerJoin(ServerPlayerEntity player) {
@@ -72,12 +77,12 @@ public final class Events {
   public static void playerDeath(Entity entity, Text text) {
     if (!entity.isPlayer() || modConfig.getPlayerDeathMessage().isBlank()) return;
     Utils.sendEntityWebhook(entity, modConfig.getPlayerDeathMessage()
-      .replaceAll("\\{message\\}", text.getString()));
+      .replaceAll("\\{message}", text.getString()));
   }
 
   public static void playerAdvancement(ServerPlayerEntity player, String title) {
     if (modConfig.getPlayerAdvancementMessage().isBlank()) return;
     Utils.sendEntityWebhook(player, modConfig.getPlayerAdvancementMessage()
-      .replaceAll("\\{title\\}", title));
+      .replaceAll("\\{title}", title));
   }
 }
