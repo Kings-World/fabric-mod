@@ -24,7 +24,6 @@ public class Client {
       .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
       .setActivity(Utils.activityOf(Utils.ActivityChoices.STARTING))
       .setStatus(modConfig.getStartingActivityStatus())
-      .setEnableShutdownHook(false)
       .build()
       .awaitReady();
   }

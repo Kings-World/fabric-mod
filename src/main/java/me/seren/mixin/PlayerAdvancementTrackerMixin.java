@@ -14,8 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerAdvancementTracker.class)
 public abstract class PlayerAdvancementTrackerMixin {
-  @Shadow public abstract AdvancementProgress getProgress(Advancement advancement);
-  @Shadow private ServerPlayerEntity owner;
+  @Shadow
+  public abstract AdvancementProgress getProgress(Advancement advancement);
+
+  @Shadow
+  private ServerPlayerEntity owner;
 
   @Inject(at = @At(value = "TAIL"), method = "grantCriterion")
   private void onGrantCriterion(Advancement advancement, String criterionName, CallbackInfoReturnable<Boolean> cir) {

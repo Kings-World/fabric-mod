@@ -39,16 +39,11 @@ public class Utils {
     if (client == null) return "The discord client is not initialized";
 
     TextChannel channel = client.jda.getTextChannelById(modConfig.getChannelId());
-    if (channel == null) {
-      logger.warn("I'm unable to find a channel with the id \"" + modConfig.getChannelId() + "\"");
-      return "I'm unable to find a channel with the id \"" + modConfig.getChannelId() + "\"";
-    } else if (!channel.canTalk()) {
-      logger.warn("I'm unable to talk in the channel #" + channel.getName());
-      return "I'm unable to talk in the channel #" + channel.getName();
-    } else {
-      channel.sendMessage(text).setAllowedMentions(jdaMentions).queue();
-      return "The message has been sent to #" + channel.getName();
-    }
+    if (channel == null) return "I'm unable to find a channel with the id \"" + modConfig.getChannelId() + "\"";
+    if (!channel.canTalk()) return "I'm unable to talk in the channel #" + channel.getName();
+
+    channel.sendMessage(text).setAllowedMentions(jdaMentions).queue();
+    return "The message has been sent to #" + channel.getName();
   }
 
   public static void sendEntityWebhook(Entity entity, String content) {
@@ -64,6 +59,11 @@ public class Utils {
 
   public static void initializeWebhook() {
     logger.info("Creating webhook client...");
+    if (modConfig.getWebhookUrl().isBlank()) {
+      logger.info("The webhook url is not set");
+      return;
+    }
+
     try {
       webhook = WebhookClient.withUrl(modConfig.getWebhookUrl());
     } catch (IllegalArgumentException e) {
@@ -73,6 +73,11 @@ public class Utils {
 
   public static void initializeClient(MinecraftServer server) {
     logger.info("Creating discord client...");
+    if (modConfig.getDiscordToken().isBlank()) {
+      logger.error("The discord token is not set");
+      return;
+    }
+
     try {
       client = new Client(server);
     } catch (LoginException | InterruptedException e) {
@@ -114,8 +119,8 @@ public class Utils {
 
   public static String getEntityValues(String string, Entity entity) {
     return string
-      .replaceAll("\\{uuid\\}", entity.getUuidAsString())
-      .replaceAll("\\{name\\}", entity.getEntityName());
+      .replaceAll("\\{uuid}", entity.getUuidAsString())
+      .replaceAll("\\{name}", entity.getEntityName());
   }
 
   public static Path configFolder() {
