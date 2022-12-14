@@ -1,10 +1,10 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-  id "java"
-  id "fabric-loom" version "0.12-SNAPSHOT"
-  id "com.github.breadmoirai.github-release" version "2.4.1"
-  id "com.modrinth.minotaur" version "2.+"
+    id "java"
+    id "fabric-loom" version "0.12-SNAPSHOT"
+    id "com.github.breadmoirai.github-release" version "2.4.1"
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -15,105 +15,105 @@ version = mod_version
 group = maven_group
 
 repositories {
-  // used by fabric-permissions-api
-  maven {
-    url "https://oss.sonatype.org/content/repositories/snapshots"
-  }
-  // used by yamlconfiguration
-  maven {
-    url "https://oss.sonatype.org/content/repositories/releases"
-  }
-  mavenCentral()
+    // used by fabric-permissions-api
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+    // used by yamlconfiguration
+    maven {
+        url "https://oss.sonatype.org/content/repositories/releases"
+    }
+    mavenCentral()
 }
 
 dependencies {
-  minecraft "com.mojang:minecraft:$minecraft_version"
-  mappings "net.fabricmc:yarn:$yarn_mappings:v2"
-  modImplementation "net.fabricmc:fabric-loader:$loader_version"
+    minecraft "com.mojang:minecraft:$minecraft_version"
+    mappings "net.fabricmc:yarn:$yarn_mappings:v2"
+    modImplementation "net.fabricmc:fabric-loader:$loader_version"
 
-  modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
-  modImplementation "me.lucko:fabric-permissions-api:$perms_version"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
+    modImplementation "me.lucko:fabric-permissions-api:$perms_version"
 
-  modImplementation include("org.bspfsystems:yamlconfiguration:$yaml_version")
-  implementation include("club.minnced:discord-webhooks:$webhooks_version")
-  modImplementation include("net.dv8tion:JDA:$jda_version") {
-    exclude module: "opus-java"
-  }
+    modImplementation include("org.bspfsystems:yamlconfiguration:$yaml_version")
+    implementation include("club.minnced:discord-webhooks:$webhooks_version")
+    modImplementation include("net.dv8tion:JDA:$jda_version") {
+        exclude module: "opus-java"
+    }
 
-  // required by discord-webhooks and jda
-  // i should maybe change to something else because these includes bump the jar size from 2mb to 7mb
-  // credits to https://github.com/arthurbambou/Fabric---Discord-Link/blob/master/common/build.gradle for listing these includes
-  include "net.sf.trove4j:trove4j:3.0.3"
-  include "org.apache.commons:commons-collections4:4.1"
-  include "com.neovisionaries:nv-websocket-client:2.14"
-  include "com.squareup.okhttp3:okhttp:3.14.9"
-  include "com.squareup.okio:okio:1.17.2"
-  include "com.fasterxml.jackson.core:jackson-databind:2.10.1"
-  include "com.fasterxml.jackson.core:jackson-annotations:2.10.1"
-  include "com.fasterxml.jackson.core:jackson-core:2.10.1"
-  include "org.json:json:20210307"
+    // required by discord-webhooks and jda
+    // i should maybe change to something else because these includes bump the jar size from 2mb to 7mb
+    // credits to https://github.com/arthurbambou/Fabric---Discord-Link/blob/master/common/build.gradle for listing these includes
+    include "net.sf.trove4j:trove4j:3.0.3"
+    include "org.apache.commons:commons-collections4:4.1"
+    include "com.neovisionaries:nv-websocket-client:2.14"
+    include "com.squareup.okhttp3:okhttp:3.14.9"
+    include "com.squareup.okio:okio:1.17.2"
+    include "com.fasterxml.jackson.core:jackson-databind:2.10.1"
+    include "com.fasterxml.jackson.core:jackson-annotations:2.10.1"
+    include "com.fasterxml.jackson.core:jackson-core:2.10.1"
+    include "org.json:json:20210307"
 }
 
 processResources {
-  inputs.property "version", project.version
-  filter(ReplaceTokens, beginToken: "\${", endToken: "}", tokens: [
-    version: project.version
-  ])
+    inputs.property "version", project.version
+    filter(ReplaceTokens, beginToken: "\${", endToken: "}", tokens: [
+        version: project.version
+    ])
 }
 
 tasks.withType(JavaCompile).configureEach {
-  it.options.encoding = "UTF-8"
-  it.options.release = 17
+    it.options.encoding = "UTF-8"
+    it.options.release = 17
 }
 
 java {
-  // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-  // if it is present.
-  // If you remove this line, sources will not be generated.
-  withSourcesJar()
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
 }
 
 jar {
-  from("LICENSE") {
-    rename { "${it}_${project.archivesBaseName}"}
-  }
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}"}
+    }
 }
 
 githubRelease {
-  token = System.getenv("GITHUB_TOKEN").toString()
-  owner = System.getenv("GITHUB_OWNER").toString()
-  repo = System.getenv("GITHUB_REPO").toString()
-  targetCommitish = System.getenv("GITHUB_REF_NAME").toString()
-  body = file(".github/changelog.md").text
-  releaseAssets = remapJar.archiveFile.get()
-  releaseName = "[$minecraft_version] $mod_name $mod_version"
-  tagName = mod_version
+    token = System.getenv("GITHUB_TOKEN").toString()
+    owner = System.getenv("GITHUB_OWNER").toString()
+    repo = System.getenv("GITHUB_REPO").toString()
+    targetCommitish = System.getenv("GITHUB_REF_NAME").toString()
+    body = file(".github/changelog.md").text
+    releaseAssets = remapJar.archiveFile.get()
+    releaseName = "[$minecraft_version] $mod_name $mod_version"
+    tagName = mod_version
 }
 
 tasks.githubRelease.configure {
-  group = "publishing"
-  onlyIf { System.getenv("GITHUB_TOKEN") }
-  dependsOn(build)
+    group = "publishing"
+    onlyIf { System.getenv("GITHUB_TOKEN") }
+    dependsOn(build)
 }
 
 modrinth {
-  projectId = modrinth_id
-  versionNumber = version
-  versionType = release_type
-  versionName = "[$minecraft_version] $mod_name $mod_version"
-  uploadFile = remapJar
-  gameVersions = [minecraft_version]
-  loaders = ["fabric"]
-  changelog = file(".github/changelog.md").text
-  syncBodyFrom = file("README.md").text
-  dependencies {
-    required.version "3KmOcp6b" // Fabric API 0.58.0+1.19
-    optional.project "Vebnzrzj" // LuckPerms
-  }
+    projectId = modrinth_id
+    versionNumber = version
+    versionType = release_type
+    versionName = "[$minecraft_version] $mod_name $mod_version"
+    uploadFile = remapJar
+    gameVersions = [minecraft_version]
+    loaders = ["fabric"]
+    changelog = file(".github/changelog.md").text
+    syncBodyFrom = file("README.md").text
+    dependencies {
+        required.version "3KmOcp6b" // Fabric API 0.58.0+1.19
+        optional.project "Vebnzrzj" // LuckPerms
+    }
 }
 
 tasks.modrinth.configure {
-  group = "publishing"
-  onlyIf { System.getenv("MODRINTH_TOKEN") }
-  dependsOn(build, modrinthSyncBody)
+    group = "publishing"
+    onlyIf { System.getenv("MODRINTH_TOKEN") }
+    dependsOn(build, modrinthSyncBody)
 }

@@ -12,38 +12,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KingsWorld implements ModInitializer {
-  public static final String modId = "kings-world";
-  public static final Logger logger = LoggerFactory.getLogger(modId);
-  public static WebhookClient webhook;
-  public static Client client;
-  public static ModConfig modConfig;
+    public static final String modId = "kings-world";
+    public static final Logger logger = LoggerFactory.getLogger(modId);
+    public static WebhookClient webhook;
+    public static Client client;
+    public static ModConfig modConfig;
 
-  @Override
-  public void onInitialize() {
-    registerEvents();
-    registerCommands();
-  }
-
-  public static void loadConfig() {
-    Utils.printBanner();
-    modConfig = new ModConfig("config.yml");
-    if (Utils.isFabricPermissionsAPILoaded()) {
-      logger.info("Loaded Fabric Permissions API");
+    @Override
+    public void onInitialize() {
+        registerEvents();
+        registerCommands();
     }
-  }
 
-  private void registerEvents() {
-    // fabric-lifecycle-events-v1
-    ServerLifecycleEvents.SERVER_STARTING.register(Events::serverStarting);
-    ServerLifecycleEvents.SERVER_STARTED.register(Events::serverStarted);
-    ServerLifecycleEvents.SERVER_STOPPING.register(Events::serverStopping);
-    ServerLifecycleEvents.SERVER_STOPPED.register(Events::serverStopped);
+    public static void loadConfig() {
+        Utils.printBanner();
+        modConfig = new ModConfig("config.yml");
+        if (Utils.isFabricPermissionsAPILoaded()) {
+            logger.info("Loaded Fabric Permissions API");
+        }
+    }
 
-    // fabric-message-api-v1
-    ServerMessageEvents.CHAT_MESSAGE.register(Events::chatMessage);
-  }
+    private void registerEvents() {
+        // fabric-lifecycle-events-v1
+        ServerLifecycleEvents.SERVER_STARTING.register(Events::serverStarting);
+        ServerLifecycleEvents.SERVER_STARTED.register(Events::serverStarted);
+        ServerLifecycleEvents.SERVER_STOPPING.register(Events::serverStopping);
+        ServerLifecycleEvents.SERVER_STOPPED.register(Events::serverStopped);
 
-  private void registerCommands() {
-    CommandRegistrationCallback.EVENT.register((dispatcher, registry, env) -> MainCommand.register(dispatcher));
-  }
+        // fabric-message-api-v1
+        ServerMessageEvents.CHAT_MESSAGE.register(Events::chatMessage);
+    }
+
+    private void registerCommands() {
+        CommandRegistrationCallback.EVENT.register((dispatcher, registry, env) -> MainCommand.register(dispatcher));
+    }
 }

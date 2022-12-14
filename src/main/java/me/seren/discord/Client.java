@@ -11,20 +11,20 @@ import javax.security.auth.login.LoginException;
 import static me.seren.KingsWorld.modConfig;
 
 public class Client {
-  public JDA jda;
-  public MinecraftServer server;
-  public Listener listener;
+    public JDA jda;
+    public MinecraftServer server;
+    public Listener listener;
 
-  public Client(MinecraftServer server) throws LoginException, InterruptedException {
-    this.server = server;
-    this.listener = new Listener(this);
-    this.jda = JDABuilder
-      .createDefault(modConfig.getDiscordToken())
-      .addEventListeners(this.listener)
-      .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
-      .setActivity(Utils.activityOf(Utils.ActivityChoices.STARTING))
-      .setStatus(modConfig.getStartingActivityStatus())
-      .build()
-      .awaitReady();
-  }
+    public Client(MinecraftServer server) throws LoginException, InterruptedException {
+        this.server = server;
+        this.listener = new Listener(this);
+        this.jda = JDABuilder
+            .createDefault(modConfig.getDiscordToken())
+            .addEventListeners(this.listener)
+            .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
+            .setActivity(Utils.activityOf(Utils.ActivityChoices.STARTING))
+            .setStatus(modConfig.getStartingActivityStatus())
+            .build()
+            .awaitReady();
+    }
 }

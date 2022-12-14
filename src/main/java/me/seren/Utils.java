@@ -23,146 +23,146 @@ import java.util.function.Predicate;
 import static me.seren.KingsWorld.*;
 
 public class Utils {
-  public static Collection<Message.MentionType> jdaMentions = Arrays.asList(
-    Message.MentionType.CHANNEL,
-    Message.MentionType.EMOJI
-  );
+    public static Collection<Message.MentionType> jdaMentions = Arrays.asList(
+        Message.MentionType.CHANNEL,
+        Message.MentionType.EMOJI
+    );
 
-  public static void printBanner() {
-    logger.info("_  _ _ _  _ ____ ____    _ _ _ ____ ____ _    ___  ");
-    logger.info("|_/  | |\\ | | __ [__     | | | |  | |__/ |    |  \\ ");
-    logger.info("| \\_ | | \\| |__] ___]    |_|_| |__| |  \\ |___ |__/ ");
-    logger.info("                                                   ");
-  }
-
-  public static String sendDiscordMessage(CharSequence text) {
-    if (client == null) return "The discord client is not initialized";
-
-    TextChannel channel = client.jda.getTextChannelById(modConfig.getChannelId());
-    if (channel == null) return "I'm unable to find a channel with the id \"" + modConfig.getChannelId() + "\"";
-    if (!channel.canTalk()) return "I'm unable to talk in the channel #" + channel.getName();
-
-    channel.sendMessage(text).setAllowedMentions(jdaMentions).queue();
-    return "The message has been sent to #" + channel.getName();
-  }
-
-  public static void sendEntityWebhook(Entity entity, String content) {
-    if (webhook == null || webhook.isShutdown()) return;
-
-    webhook.send(new WebhookMessageBuilder()
-      .setContent(getEntityValues(content, entity))
-      .setUsername(entity.getEntityName())
-      .setAvatarUrl(getEntityAvatar(entity))
-      .setAllowedMentions(AllowedMentions.none())
-      .build());
-  }
-
-  public static void initializeWebhook() {
-    logger.info("Creating webhook client...");
-    if (modConfig.getWebhookUrl().isBlank()) {
-      logger.info("The webhook url is not set");
-      return;
+    public static void printBanner() {
+        logger.info("_  _ _ _  _ ____ ____    _ _ _ ____ ____ _    ___  ");
+        logger.info("|_/  | |\\ | | __ [__     | | | |  | |__/ |    |  \\ ");
+        logger.info("| \\_ | | \\| |__] ___]    |_|_| |__| |  \\ |___ |__/ ");
+        logger.info("                                                   ");
     }
 
-    try {
-      webhook = WebhookClient.withUrl(modConfig.getWebhookUrl());
-    } catch (IllegalArgumentException e) {
-      logger.error(e.getMessage());
-    }
-  }
+    public static String sendDiscordMessage(CharSequence text) {
+        if (client == null) return "The discord client is not initialized";
 
-  public static void initializeClient(MinecraftServer server) {
-    logger.info("Creating discord client...");
-    if (modConfig.getDiscordToken().isBlank()) {
-      logger.error("The discord token is not set");
-      return;
+        TextChannel channel = client.jda.getTextChannelById(modConfig.getChannelId());
+        if (channel == null) return "I'm unable to find a channel with the id \"" + modConfig.getChannelId() + "\"";
+        if (!channel.canTalk()) return "I'm unable to talk in the channel #" + channel.getName();
+
+        channel.sendMessage(text).setAllowedMentions(jdaMentions).queue();
+        return "The message has been sent to #" + channel.getName();
     }
 
-    try {
-      client = new Client(server);
-    } catch (LoginException | InterruptedException e) {
-      logger.error(e.getMessage());
+    public static void sendEntityWebhook(Entity entity, String content) {
+        if (webhook == null || webhook.isShutdown()) return;
+
+        webhook.send(new WebhookMessageBuilder()
+            .setContent(getEntityValues(content, entity))
+            .setUsername(entity.getEntityName())
+            .setAvatarUrl(getEntityAvatar(entity))
+            .setAllowedMentions(AllowedMentions.none())
+            .build());
     }
-  }
 
-  public static void setStartedPresence() {
-    if (client == null) return;
-    Presence presence = client.jda.getPresence();
-    presence.setActivity(Utils.activityOf(Utils.ActivityChoices.STARTED));
-    presence.setStatus(modConfig.getStartedActivityStatus());
-  }
+    public static void initializeWebhook() {
+        logger.info("Creating webhook client...");
+        if (modConfig.getWebhookUrl().isBlank()) {
+            logger.info("The webhook url is not set");
+            return;
+        }
 
-  public static void reloadModConfig(MinecraftServer server) {
-    modConfig.reloadFile();
+        try {
+            webhook = WebhookClient.withUrl(modConfig.getWebhookUrl());
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+        }
+    }
 
-    if (webhook != null) webhook.close();
-    initializeWebhook();
+    public static void initializeClient(MinecraftServer server) {
+        logger.info("Creating discord client...");
+        if (modConfig.getDiscordToken().isBlank()) {
+            logger.error("The discord token is not set");
+            return;
+        }
 
-    if (client != null) client.jda.shutdown();
-    initializeClient(server);
-    setStartedPresence();
-  }
+        try {
+            client = new Client(server);
+        } catch (LoginException | InterruptedException e) {
+            logger.error(e.getMessage());
+        }
+    }
 
-  public static Predicate<ServerCommandSource> requirePermission(String permission, int defaultLevel) {
-    if (isFabricPermissionsAPILoaded()) return Permissions.require(permission, defaultLevel);
-    return source -> source.hasPermissionLevel(defaultLevel);
-  }
+    public static void setStartedPresence() {
+        if (client == null) return;
+        Presence presence = client.jda.getPresence();
+        presence.setActivity(Utils.activityOf(Utils.ActivityChoices.STARTED));
+        presence.setStatus(modConfig.getStartedActivityStatus());
+    }
 
-  public static boolean isFabricPermissionsAPILoaded() {
-    return FabricLoader.getInstance().isModLoaded("fabric-permissions-api-v0");
-  }
+    public static void reloadModConfig(MinecraftServer server) {
+        modConfig.reloadFile();
 
-  public static String getEntityAvatar(Entity entity) {
-    String url = modConfig.getAvatarUrl();
-    return Utils.getEntityValues(url, entity);
-  }
+        if (webhook != null) webhook.close();
+        initializeWebhook();
 
-  public static String getEntityValues(String string, Entity entity) {
-    return string
-      .replaceAll("\\{uuid}", entity.getUuidAsString())
-      .replaceAll("\\{name}", entity.getEntityName());
-  }
+        if (client != null) client.jda.shutdown();
+        initializeClient(server);
+        setStartedPresence();
+    }
 
-  public static Path configFolder() {
-    return FabricLoader.getInstance().getConfigDir().resolve(modId.toLowerCase());
-  }
+    public static Predicate<ServerCommandSource> requirePermission(String permission, int defaultLevel) {
+        if (isFabricPermissionsAPILoaded()) return Permissions.require(permission, defaultLevel);
+        return source -> source.hasPermissionLevel(defaultLevel);
+    }
 
-  public static ActivityTypes parseActivityType(String activity) {
-    return switch (activity.toUpperCase()) {
-      case "PLAYING" -> ActivityTypes.PLAYING;
-      case "STREAMING" -> ActivityTypes.STREAMING;
-      case "LISTENING" -> ActivityTypes.LISTENING;
-      case "WATCHING" -> ActivityTypes.WATCHING;
-      case "CUSTOM_STATUS" -> ActivityTypes.CUSTOM_STATUS;
-      case "COMPETING" -> ActivityTypes.COMPETING;
-      default -> ActivityTypes.NONE;
-    };
-  }
+    public static boolean isFabricPermissionsAPILoaded() {
+        return FabricLoader.getInstance().isModLoaded("fabric-permissions-api-v0");
+    }
 
-  public static Activity activityOf(ActivityChoices activity) {
-    ActivityTypes type = activity == ActivityChoices.STARTING
-      ? modConfig.getStartingActivityType()
-      : modConfig.getStartedActivityType();
-    String name = activity == ActivityChoices.STARTING
-      ? modConfig.getStartingActivityName()
-      : modConfig.getStartedActivityName();
+    public static String getEntityAvatar(Entity entity) {
+        String url = modConfig.getAvatarUrl();
+        return Utils.getEntityValues(url, entity);
+    }
 
-    if (type.equals(ActivityTypes.NONE)) return null;
-    return Activity.of(Activity.ActivityType.valueOf(type.name()), name);
-  }
+    public static String getEntityValues(String string, Entity entity) {
+        return string
+            .replaceAll("\\{uuid}", entity.getUuidAsString())
+            .replaceAll("\\{name}", entity.getEntityName());
+    }
 
-  public enum ActivityChoices {
-    STARTING,
-    STARTED
-  }
+    public static Path configFolder() {
+        return FabricLoader.getInstance().getConfigDir().resolve(modId.toLowerCase());
+    }
 
-  public enum ActivityTypes {
-    PLAYING,
-    STREAMING,
-    LISTENING,
-    WATCHING,
-    CUSTOM_STATUS,
-    COMPETING,
-    NONE,
-  }
+    public static ActivityTypes parseActivityType(String activity) {
+        return switch (activity.toUpperCase()) {
+            case "PLAYING" -> ActivityTypes.PLAYING;
+            case "STREAMING" -> ActivityTypes.STREAMING;
+            case "LISTENING" -> ActivityTypes.LISTENING;
+            case "WATCHING" -> ActivityTypes.WATCHING;
+            case "CUSTOM_STATUS" -> ActivityTypes.CUSTOM_STATUS;
+            case "COMPETING" -> ActivityTypes.COMPETING;
+            default -> ActivityTypes.NONE;
+        };
+    }
+
+    public static Activity activityOf(ActivityChoices activity) {
+        ActivityTypes type = activity == ActivityChoices.STARTING
+            ? modConfig.getStartingActivityType()
+            : modConfig.getStartedActivityType();
+        String name = activity == ActivityChoices.STARTING
+            ? modConfig.getStartingActivityName()
+            : modConfig.getStartedActivityName();
+
+        if (type.equals(ActivityTypes.NONE)) return null;
+        return Activity.of(Activity.ActivityType.valueOf(type.name()), name);
+    }
+
+    public enum ActivityChoices {
+        STARTING,
+        STARTED
+    }
+
+    public enum ActivityTypes {
+        PLAYING,
+        STREAMING,
+        LISTENING,
+        WATCHING,
+        CUSTOM_STATUS,
+        COMPETING,
+        NONE,
+    }
 }

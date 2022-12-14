@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(DamageTracker.class)
 public class DamageTrackerMixin {
-  @Shadow
-  @Final
-  private LivingEntity entity;
+    @Shadow
+    @Final
+    private LivingEntity entity;
 
-  @Inject(at = @At(value = "RETURN"), method = "getDeathMessage")
-  private void onGetDeathMessage(CallbackInfoReturnable<Text> cir) {
-    Events.playerDeath(this.entity, cir.getReturnValue());
-  }
+    @Inject(at = @At(value = "RETURN"), method = "getDeathMessage")
+    private void onGetDeathMessage(CallbackInfoReturnable<Text> cir) {
+        Events.playerDeath(this.entity, cir.getReturnValue());
+    }
 }

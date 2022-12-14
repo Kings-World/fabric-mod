@@ -1,31 +1,31 @@
 {
-  "schemaVersion": 1,
-  "id": "kings-world",
-  "version": "${version}",
-  "name": "Kings World",
-  "description": "A Discord to Minecraft bridge for Kings MC",
-  "authors": ["SerenModz21"],
-  "contact": {
-    "homepage": "https://modrinth.com/mod/kings-world",
-    "issues": "https://github.com/Kings-World/fabric-mod/issues",
-    "sources": "https://github.com/Kings-World/fabric-mod",
-    "email": "seren@kings-world.net",
-    "discord": "https://discord.gg/fRbKEx9zaZ"
-  },
-  "license": "MIT",
-  "icon": "assets/kings-world/icon.png",
-  "environment": "server",
-  "entrypoints": {
-    "main": ["me.seren.KingsWorld"]
-  },
-  "mixins": ["kings-world.mixins.json"],
-  "depends": {
-    "fabricloader": ">=0.14.8",
-    "fabric": "*",
-    "minecraft": ">=1.19",
-    "java": ">=17"
-  },
-  "suggests": {
-    "fabric-permissions-api-v0": "*"
-  }
+    "schemaVersion": 1,
+    "id": "kings-world",
+    "version": "${version}",
+    "name": "Kings World",
+    "description": "A Discord to Minecraft bridge for Kings MC",
+    "authors": ["SerenModz21"],
+    "contact": {
+        "homepage": "https://modrinth.com/mod/kings-world",
+        "issues": "https://github.com/Kings-World/fabric-mod/issues",
+        "sources": "https://github.com/Kings-World/fabric-mod",
+        "email": "seren@kings-world.net",
+        "discord": "https://discord.gg/fRbKEx9zaZ"
+    },
+    "license": "MIT",
+    "icon": "assets/kings-world/icon.png",
+    "environment": "server",
+    "entrypoints": {
+        "main": ["me.seren.KingsWorld"]
+    },
+    "mixins": ["kings-world.mixins.json"],
+    "depends": {
+        "fabricloader": ">=0.14.8",
+        "fabric": "*",
+        "minecraft": ">=1.19",
+        "java": ">=17"
+    },
+    "suggests": {
+        "fabric-permissions-api-v0": "*"
+    }
 }

@@ -14,18 +14,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerAdvancementTracker.class)
 public abstract class PlayerAdvancementTrackerMixin {
-  @Shadow
-  public abstract AdvancementProgress getProgress(Advancement advancement);
+    @Shadow
+    public abstract AdvancementProgress getProgress(Advancement advancement);
 
-  @Shadow
-  private ServerPlayerEntity owner;
+    @Shadow
+    private ServerPlayerEntity owner;
 
-  @Inject(at = @At(value = "TAIL"), method = "grantCriterion")
-  private void onGrantCriterion(Advancement advancement, String criterionName, CallbackInfoReturnable<Boolean> cir) {
-    AdvancementProgress progress = this.getProgress(advancement);
-    AdvancementDisplay display = advancement.getDisplay();
-    if (display != null && progress.isDone() && display.shouldAnnounceToChat()) {
-      Events.playerAdvancement(this.owner, display.getTitle().getString());
+    @Inject(at = @At(value = "TAIL"), method = "grantCriterion")
+    private void onGrantCriterion(Advancement advancement, String criterionName, CallbackInfoReturnable<Boolean> cir) {
+        AdvancementProgress progress = this.getProgress(advancement);
+        AdvancementDisplay display = advancement.getDisplay();
+        if (display != null && progress.isDone() && display.shouldAnnounceToChat()) {
+            Events.playerAdvancement(this.owner, display.getTitle().getString());
+        }
     }
-  }
 }
