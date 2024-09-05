@@ -1,5 +1,10 @@
-name: build
-on: [pull_request, push]
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
@@ -8,28 +13,28 @@ jobs:
         java: [17]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    name: Build
     steps:
-      - name: checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: validate gradle wrapper
+      - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v3
 
-      - name: setup jdk ${{ matrix.java }}
+      - name: Setup JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: ${{ matrix.java }}
-          cache: gradle
 
-      - name: make gradle wrapper executable
+      - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
 
-      - name: build
+      - name: Build
         run: ./gradlew build
 
-      - name: capture build artifacts
+      - name: Capture Build Artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
         uses: actions/upload-artifact@v4
         with:
