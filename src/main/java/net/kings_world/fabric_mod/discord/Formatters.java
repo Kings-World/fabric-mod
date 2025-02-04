@@ -78,6 +78,7 @@ public class Formatters {
     }
 
     public static String formatMarkdown(String content) {
+        // credits to https://github.com/cindyaddoil/Regex-Tuesday-Challenge#challenge-4
         return content
             .replaceAll("(^|[^*])\\*{3}([^*]+.?[^*])\\*{3}(?=[^*]|$)", "$1§l§o$2§r§7") // bold and italic
             .replaceAll("(^|[^*])\\*{2}([^*]+.?[^*])\\*{2}(?=[^*]|$)", "$1§l$2§r§7") // bold
