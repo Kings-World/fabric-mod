@@ -3,6 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 plugins {
     id("java")
     id("fabric-loom") version "1.8-SNAPSHOT"
+    id("com.modrinth.minotaur") version "2.+"
 }
 
 group = property("maven_group")!!
@@ -84,3 +85,23 @@ tasks.jar {
     }
 }
 
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = property("modrinth_id")!! as String
+    versionNumber = "[${property("minecraft_version")}] ${property("mod_name")} ${project.version}"
+    versionType = property("release_type")!! as String
+    uploadFile.set(tasks.jar)
+    gameVersions.add(property("minecraft_version")!! as String)
+    loaders.add("fabric")
+    changelog = file(".github/changelog.md").readText()
+    syncBodyFrom = file("README.md").readText()
+    dependencies {
+        required.version("fabric-api", property("fabric_version")!! as String)
+    }
+}
+
+tasks.modrinth.configure {
+    group = "publishing"
+    onlyIf { System.getenv("MODRINTH_TOKEN").isNullOrBlank() }
+    dependsOn(tasks.build, tasks.modrinthSyncBody)
+}
