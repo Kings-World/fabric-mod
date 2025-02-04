@@ -46,4 +46,4 @@ run/
 
 # Custom
 .idea/
-.env
+.env*
