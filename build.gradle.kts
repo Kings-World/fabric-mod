@@ -4,6 +4,7 @@ plugins {
     id("java")
     id("fabric-loom") version "1.8-SNAPSHOT"
     id("com.modrinth.minotaur") version "2.+"
+    id("com.github.breadmoirai.github-release") version "2.4.1"
 }
 
 group = property("maven_group")!!
@@ -104,4 +105,24 @@ tasks.modrinth.configure {
     group = "publishing"
     onlyIf { System.getenv("MODRINTH_TOKEN").isNullOrBlank() }
     dependsOn(tasks.build, tasks.modrinthSyncBody)
+}
+
+githubRelease {
+    token(System.getenv("GITHUB_TOKEN"))
+    owner(System.getenv("GITHUB_OWNER"))
+    repo(System.getenv("GITHUB_REPO"))
+    targetCommitish(System.getenv("GITHUB_REF_NAME"))
+    body(file(".github/changelog.md").readText())
+    releaseAssets(tasks.jar)
+    releaseName("[${property("minecraft_version")}] ${property("mod_name")} ${project.version}")
+    tagName(project.version.toString())
+}
+
+tasks.githubRelease.configure {
+    group = "publishing"
+    onlyIf { System.getenv("GITHUB_TOKEN").isNullOrBlank() &&
+            System.getenv("GITHUB_OWNER").isNullOrBlank() &&
+            System.getenv("GITHUB_REPO").isNullOrBlank() &&
+            System.getenv("GITHUB_REF_NAME").isNullOrBlank() }
+    dependsOn(tasks.build)
 }
