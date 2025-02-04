@@ -20,13 +20,13 @@ A fabric mod that links Minecraft and Discord together. This mod was specificall
 2. Move the downloaded JAR into your server's mods folder.
 3. Start your server to create the mod's config file.
 4. Go to your server's config folder and fill in the required information.
-5. Restart your server and you are good to go.
+5. Restart your server or run `/kings-world reload`, and you are good to go.
 
 ## Commands
 
-- `/kingsworld`: Displays the current version of the mod.
-- `/kingsworld send <message>`: Send a message to the Discord channel.
-- `/kingsworld reload`: Reload the config file.
+- `/kings-world version`: Displays the current version of the mod.
+- `/kings-world send <message>`: Send a message to the Discord channel.
+- `/kings-world reload`: Reload the config file.
 
 ## Credits
 

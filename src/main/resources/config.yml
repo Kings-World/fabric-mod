@@ -8,31 +8,26 @@
 # Must have "Manage Webhooks" permission to create a webhook (image guide: https://seren.link/GfBB)
 webhook_url: ""
 
-# The URL which should be used to get the avatars of users
-# Must return a Discord compatible image and nothing else
-avatar_url: https://crafthead.net/helm/{uuid}
-
 # [Required] Your discord bot token
 # To create a bot, go to https://discord.com/developers/applications
 # New Application > Bot (left side) > New Bot > Copy Token (image guide: https://seren.link/9Y13)
 discord_token: ""
 
 # [Required] The ID of the channel used to send Minecraft actions to Discord
-# To get the channel ID, prefix the channel mention with a "\" (eg. \#minecraft-chat)
+# To get the channel ID, prefix the channel mention with a "\" (eg: \#minecraft-chat)
 # Or enable Developer Mode from advanced user settings, right-click the channel and copy ID
 channel_id: ""
 
-# Whether to persist the bots slash commands during reboots
-# If set to false, the bot will delete the slash commands when the server stops
-# Note: You should only set this to false if the bot being used is made for testing
-persist_commands: true
+# The URL which should be used to get the avatars of users
+# Must return a Discord compatible image and nothing else
+avatar_url: https://crafthead.net/helm/{uuid}
 
 # The presence of the bot set whilst the server starts
 # Will be the started activity (shown below) once the server finishes loading
 # Note: starting_activity and started_activity can be the same (if you wish to)
 starting_activity:
     # The status of the bot whilst the server starts
-    # Must be one of the following (not case sensitive):
+    # Must be one of the following (not case-sensitive):
     # - ONLINE: Shows a green circle
     # - IDLE: Shows a yellow circle
     # - DND: Shows a red circle (Do Not Disturb)
@@ -40,11 +35,12 @@ starting_activity:
     status: IDLE
 
     # The activity of the bot whilst the server starts
-    # Must be one of the following (not case sensitive):
+    # Must be one of the following (not case-sensitive):
     # - PLAYING: Shows as "Playing <name>"
-    # - LISTENING: Listening to "Playing <name>"
-    # - WATCHING: Watching "Playing <name>"
-    # - COMPETING: Competing in "Playing <name>"
+    # - LISTENING: Shows as "Listening to <name>"
+    # - WATCHING: Shows as "Watching <name>"
+    # - COMPETING: Shows as "Competing in <name>"
+    # - CUSTOM: Custom status shows as "<name>"
     # - NONE: Doesn't show any activity
     type: NONE
 
@@ -57,7 +53,7 @@ starting_activity:
 # Note: starting_activity and started_activity can be the same (if you wish to)
 started_activity:
     # The status of the bot once the server has started
-    # Must be one of the following (not case sensitive):
+    # Must be one of the following (not case-sensitive):
     # - ONLINE: Shows a green circle
     # - IDLE: Shows a yellow circle
     # - DND: Shows a red circle (Do Not Disturb)
@@ -65,11 +61,12 @@ started_activity:
     status: ONLINE
 
     # The activity of the bot once the server has started
-    # Must be one of the following (not case sensitive):
+    # Must be one of the following (not case-sensitive):
     # - PLAYING: Shows as "Playing <name>"
-    # - LISTENING: Listening to "Playing <name>"
-    # - WATCHING: Watching "Playing <name>"
-    # - COMPETING: Competing in "Playing <name>"
+    # - LISTENING: Shows as "Listening to <name>"
+    # - WATCHING: Shows as "Watching <name>"
+    # - COMPETING: Shows as "Competing in <name>"
+    # - CUSTOM: Custom status shows as "<name>"
     # - NONE: Doesn't show any activity
     type: NONE
 
@@ -84,11 +81,15 @@ started_activity:
 messages:
     # The message that is sent to Discord when the server has started
     # Have any placeholder suggestions? Feel free to suggest them to us
-    server_started: ":white_check_mark: The server has started!"
+    server_started:
+        content: ":white_check_mark: The server has started!"
+        enabled: true
 
     # The message that is sent to Discord when the server has stopped
     # Have any placeholder suggestions? Feel free to suggest them to us
-    server_stopped: ":octagonal_sign: The server has stopped!"
+    server_stopped:
+        content: ":octagonal_sign: The server has stopped!"
+        enabled: true
 
     # The message that is sent to Discord when a player sends a message on minecraft
     # The following placeholders can be used:
@@ -96,21 +97,28 @@ messages:
     # - {uuid}: The player's id
     # - {content}: The player's message
     # Have any placeholder suggestions? Feel free to suggest them to us
-    chat_message: "{name}: {content}"
+    chat_message:
+        content: "{name}: {content}"
+        enabled: true
 
     # The message that is sent to Discord when a player joins the server
     # The following placeholders can be used:
     # - {name}: The player's name
     # - {uuid}: The player's id
     # Have any placeholder suggestions? Feel free to suggest them to us
-    player_join: ":arrow_right: {name} has joined!"
+    player_join:
+        content: ":arrow_right: {name} has joined!"
+        enabled: true
 
     # The message that is sent to Discord when a player leaves the server
     # Message formatting and the following placeholders can be used:
     # - {name}: The player's name
     # - {uuid}: The player's id
+    # - {reason}: Reason for leaving
     # Have any placeholder suggestions? Feel free to suggest them to us
-    player_leave: ":arrow_left: {name} has left!"
+    player_leave:
+        content: ":arrow_left: {name} has left!"
+        enabled: true
 
     # The message that is sent to Discord when a player dies or gets killed
     # Message formatting and the following placeholders can be used:
@@ -118,12 +126,31 @@ messages:
     # - {uuid}: The player's id
     # - {message}: The death message
     # Have any placeholder suggestions? Feel free to suggest them to us
-    player_death: ":skull: {message}"
+    player_death:
+        content: ":skull: {message}"
+        enabled: true
 
     # The message that is sent to Discord when a player completes an advancement
     # Message formatting and the following placeholders can be used:
     # - {name}: The player's name
     # - {uuid}: The player's id
     # - {title}: The achievement title
+    # - {description}: The achievement description
     # Have any placeholder suggestions? Feel free to suggest them to us
-    player_advancement: ":medal: {name} has completed the advancement **{title}**!"
+    player_advancement:
+        content: ":medal: {name} has completed the advancement **{title}**!"
+        enabled: true
+
+    # The message that is sent to Minecraft when a user sends a message on Discord
+    # Message formatting and the following placeholders can be used:
+    # - {name}: The user's name
+    # - {content}: The user's message
+    # - {reference_name}: The name of the user being replied to
+    # Have any placeholder suggestions? Feel free to suggest them to us
+    discord_message:
+        standard:
+            content: "{name}: {content}"
+            enabled: true
+        reply:
+            content: "{name} -> {reference_name}: {content}"
+            enabled: true
