@@ -7,7 +7,6 @@ plugins {
     id "com.modrinth.minotaur" version "2.+"
 }
 
-archivesBaseName = archives_base_name
 version = mod_version
 group = maven_group
 
@@ -49,6 +48,10 @@ dependencies {
     include "com.fasterxml.jackson.core:jackson-annotations:2.10.1"
     include "com.fasterxml.jackson.core:jackson-core:2.10.1"
     include "org.json:json:20231013"
+}
+
+base {
+	archivesName = archives_base_name
 }
 
 processResources {
