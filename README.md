@@ -2,7 +2,9 @@
 
 [Fabric][fabric] | [Modrinth][modrinth] | [Discord][discord] | [Website][website] | [Donate][donate]
 
-A fabric mod that links Minecraft and Discord together. This mod was specifically made for the Kings World SMP server, however, the mod has been made public so anyone else with a fabric server can also enjoy the experience.
+A Fabric mod that links Minecraft and Discord together. This mod was specifically made for the King's World SMP server; however, it has been made public, so anyone else with a Fabric server can also enjoy the experience.
+
+**Important Note**: The current version of the mod will likely have bugs and issues with it. I am currently rewriting the mod to better suit maintenance for future versions while also fixing some issues I have encountered while using it for myself. The rewrite is mainly focusing on 1.20.1 right now, but I will probably make it support other versions as well.
 
 <a href="https://modrinth.com/mod/fabric-api" target="_blank">
   <img src="https://cdn.seren.dev/yn-NZHso.png" height="50" width="150" alt="Requires Fabric API">
@@ -20,7 +22,7 @@ A fabric mod that links Minecraft and Discord together. This mod was specificall
 2. Move the downloaded JAR into your server's mods folder.
 3. Start your server to create the mod's config file.
 4. Go to your server's config folder and fill in the required information.
-5. Restart your server and you are good to go.
+5. Restart your server, and you are good to go.
 
 ## Commands
 
