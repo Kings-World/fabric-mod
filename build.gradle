@@ -2,15 +2,11 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id "java"
-    id "fabric-loom" version "0.12-SNAPSHOT"
+    id "fabric-loom" version "1.2-SNAPSHOT"
     id "com.github.breadmoirai.github-release" version "2.5.2"
     id "com.modrinth.minotaur" version "2.+"
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = archives_base_name
 version = mod_version
 group = maven_group
 
@@ -54,6 +50,10 @@ dependencies {
     include "org.json:json:20231013"
 }
 
+base {
+	archivesName = archives_base_name
+}
+
 processResources {
     inputs.property "version", project.version
     filter(ReplaceTokens, beginToken: "\${", endToken: "}", tokens: [
@@ -71,6 +71,9 @@ java {
     // if it is present.
     // If you remove this line, sources will not be generated.
     withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {
