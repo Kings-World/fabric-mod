@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send discord message
-        uses: appleboy/discord-action@7bf3a70d337b798eaccf919f8842b33df151f7ce # master
+        uses: appleboy/discord-action@63ca534eba7886aa80b4cdcf59539841e8d27ef5 # master
         with:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
